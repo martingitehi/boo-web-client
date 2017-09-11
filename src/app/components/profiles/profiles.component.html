@@ -1,0 +1,70 @@
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="/profiles">
+        <img src="../assets/images/pic (1).png" width="30" height="30" alt="">
+    </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+    aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="/profiles" routerLinkActive="true">Boos <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="text" [(ngModel)]="filter" name="filter" placeholder="Search names, gender, status etc.">
+      <div class="btn-group btn-sm" role="group" aria-label="Button group with nested dropdown">
+        <a class="btn btn-danger float-right" (click)="logout()">Logout</a>
+      </div>
+    </form>
+  </div>
+</nav>
+<div class="container">
+  <div class="row">
+    <p>
+      <select class="custom-select">
+          <option selected>I am ...</option>
+          <option value="1">Male</option>
+          <option value="2">Female</option>
+        </select>
+
+      <select class="custom-select">
+            <option selected>Looking for ...</option>
+            <option value="1">Male</option>
+            <option value="2">Female</option>
+            <option value="3">All</option>
+          </select>
+
+      <select class="custom-select">
+              <option selected>Filter by ...</option>
+              <option value="1">Location</option>
+              <option value="2">Age</option>
+              <option value="3">Status</option>
+            </select>
+    </p>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-6 col-md-4">
+      <div class="thumbnail" *ngFor="let profile of profiles | orderby:['!created_on'] | filterby:{'fullname':filter}" id="card">
+          <div class="img">
+              <img src="../../../assets/{{profile.avatar_url}}" class="img-fluid" />
+            </div>
+        <div class="caption">
+          <h3>{{ profile.fullname }}</h3>
+          <p>
+            <b>
+              <i class="fa fa-heart"></i> {{profile.gender}} interested in {{ profile.interests.sex == 'Male' ? 'Men' : 'Women' }}
+              </b>
+          </p>
+          <p>
+              <button (click)="viewProfile(profile)" class="btn btn-outline-success btn-block btn-sm pull-right">
+                  <i class="fa fa-eye"></i> View Profile</button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
