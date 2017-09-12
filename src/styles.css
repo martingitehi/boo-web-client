@@ -68,8 +68,8 @@
   }
   
   #card{
-    padding-bottom:5px;
-    margin-top:2px;
+    padding-bottom:5px;    
+    margin-top:2px 1px 1px 1px;
      /* box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.3);
       -moz-box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.3);
       -webkit-box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.3); */
