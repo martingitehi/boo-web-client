@@ -9,6 +9,7 @@ import { Location } from '@angular/common';
 })
 export class DashnavbarComponent implements OnInit {
 filter:any = '';
+showSearch:boolean=true;
   constructor(private api:API, private location:Location) { }
 
   ngOnInit() {
