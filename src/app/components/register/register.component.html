@@ -1,6 +1,9 @@
 <navbar></navbar>
 <div class="row">
   <div class="container">
+    <div class="alert alert-info" *ngIf="info != ''">
+      <b>{{info}}</b>
+    </div>
     <form (submit)="register(profile)" id="needs-validation" novalidate>
       <div class="row">
         <div class="col-md-12">
@@ -37,49 +40,35 @@
         <div class="col-md-4 col-sm-12 col-xs-12">
           <label>Email</label>
           <input type="email" class="form-control" [(ngModel)]="profile.contact.email" name="email" placeholder="Email" required>
-          <div class="invalid-feedback">
-            Please provide a valid email.
-          </div>
-        </div>
+           </div>
         <div class="col-md-4 col-sm-12 col-xs-12">
           <label>Mobile</label>
           <input type="number" maxlength="10" class="form-control" [(ngModel)]="profile.contact.mobile" name="mobile" placeholder="Mobile Number"
             required>
-          <div class="invalid-feedback">
-            Please provide a mobile number.
-          </div>
         </div>
         <div class="col-md-4 col-sm-12 col-xs-12">
           <label>Date of Birth</label>
           <input type="date" class="form-control" [(ngModel)]="profile.dob" name="dob" required>
-          <div class="invalid-feedback">
-            Please provide a valid date.
-          </div>
-        </div>
+                </div>
+        <div class="col-md-4 col-sm-12 col-xs-12">
+          <label>Where are you based?</label>
+          <input type="text" class="form-control" [(ngModel)]="profile.location" name="location" required>
+           </div>
       </div>
       <div class="row">
         <div class="col-md-4 col-sm-12 col-xs-12">
           <label>Occupation</label>
           <input type="text" class="form-control" [(ngModel)]="profile.career" name="career" placeholder="Occupation" required>
-          <div class="invalid-feedback">
-            Please provide a valid occupation.
-          </div>
-        </div>
+                 </div>
         <div class="col-md-4 col-sm-12 col-xs-12">
           <label>Password</label>
           <input type="password" class="form-control" [(ngModel)]="profile.password" name="password" placeholder="Choose a Password"
             required>
-          <div class="invalid-feedback">
-            Please provide a valid password.
-          </div>
         </div>
         <div class="col-md-4 col-sm-12 col-xs-12">
           <label>Re-enter password</label>
           <input type="password" class="form-control" [(ngModel)]="profile.password" name="password_verify" placeholder="Re-enter Password"
             required>
-          <div class="invalid-feedback">
-            Please provide a valid password.
-          </div>
         </div>
       </div>
       <div class="row">
@@ -94,6 +83,15 @@
                 <option value="Engaged">Engaged</option>
         </select>
         </div>
+        <div class="col-md-12">
+            <label>Relationship Goal</label>
+            <select class="form-control" [(ngModel)]="profile.relationships.goal" name="goal" required>
+              <option value="Dating" selected>Dating</option>
+              <option value="Long-term relationship">Long-term relationship</option>
+              <option value="Marriage">Marriage</option>
+              <option value="Casual Dating">Casual Dating</option>
+            </select>
+          </div>
       </div>
       <div class="row">
         <div class="col-md-12">
@@ -168,7 +166,7 @@
         </div>
         <div class="col-md-6 mb-3">
           <label>Type of Disability</label>
-          <input type="text" class="form-control" [(ngModel)]="profile.health.disability.disability_type" name="disability_type" >
+          <input type="text" class="form-control" [(ngModel)]="profile.health.disability.disability_type" name="disability_type">
         </div>
       </div>
       <br />

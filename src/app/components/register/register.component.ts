@@ -12,7 +12,7 @@ import "rxjs/add/operator/map";
 })
 export class RegisterComponent implements OnInit {
   profile: UserAccount;
-
+  info:string='';
   ngOnInit() {
    this.profile ={
     username: '',
@@ -77,6 +77,7 @@ export class RegisterComponent implements OnInit {
     console.log(profile);
     this.api.register(profile).then((info) => {
       console.log(info);
+      this.info = info;
     })
   }
 
