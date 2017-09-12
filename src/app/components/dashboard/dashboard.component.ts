@@ -12,6 +12,7 @@ import 'rxjs/add/operator/do';
 })
 export class DashboardComponent implements OnInit {
     profile: any;
+    showSearch:boolean=false;
     constructor(private api: API,
         private route: ActivatedRoute,
         private location: Location,

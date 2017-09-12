@@ -11,6 +11,7 @@ import { Location } from '@angular/common';
 export class ProfilesComponent implements OnInit {
   profiles: any[];
   filter: any = '';
+  showSearch: boolean = true;
   constructor(private api: API,
     private location: Location,
     private router: Router) {

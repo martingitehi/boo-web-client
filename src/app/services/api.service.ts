@@ -24,6 +24,12 @@ export class API {
         this.isLoggedIn = localStorage.getItem('auth_token') != null;
     }
 
+    public CalculateAge(birthdate: Date): number {
+        var timeDiff = Math.abs(Date.now() - birthdate.valueOf());
+        return Math.floor((timeDiff / (1000 * 3600 * 24)) / 365);
+    }
+
+
     checkout(cart: any, cashier: string, store_id: any, has_credit: boolean, paid_via: string,
         customer: any, receipt_no: string, credit_amount: number) {
         let body = JSON.stringify(

@@ -8,29 +8,29 @@ import { Router } from "@angular/router";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  user:any;
+  user: any;
+  message: string = '';
   constructor(private api: API, private router: Router) {
-   this.user = {
-     username:'',
-     password:''
-   }
+    this.user = {
+      username: '',
+      password: ''
+    }
   }
 
   ngOnInit() {
   }
 
-  login(user:any) {
+  login(user: any) {
     this.api.login(user).then(data => {
       this.api.getUserInfo().then(res => {
         if (res.success) {
-          alert(JSON.stringify(res));
           this.router.navigate(['dashboard', res.info._id]);
         }
-        else{
-          alert(JSON.stringify(res));
+        else {
+          this.message = res.message;
         }
       })
-    }).catch(err => alert(err));
+    }).catch(err => this.message = err);
   }
 
 }

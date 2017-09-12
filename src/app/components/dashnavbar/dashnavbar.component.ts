@@ -16,7 +16,7 @@ filter:any = '';
 
   logout(){
     this.api.destroyUserCredentials();
-    this.location.back();
+    this.location.go('');
   }
 
 }
