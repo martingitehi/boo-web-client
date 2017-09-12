@@ -21,10 +21,10 @@
                     <li class="list-group-item">
                         HIV Status
                         <span class="badge">
-                                {{ profile.health.hiv_status.last_tested | date:'MMM, yyyy' }}
+                               Tested {{ profile.health.hiv_status.last_tested | date:'MMM, yyyy' }}
                             </span> &middot;
                         <span class="badge">
-                            {{ profile.health.hiv_status.status }}
+                           {{ profile.health.hiv_status.status }}
                         </span>
                     </li>
                     <li class="list-group-item">
@@ -90,9 +90,9 @@
                                 </a>
                 </p>
             </div>
-            <div class="row">
-                <div style="display: inline-block; column-count:4;" *ngIf="profile.photos.length">
-                    <div class="card" *ngFor="let pic of profile.photos" id="card">
+            <div class="row" *ngIf="profile.photos.length">
+                <div class="col-sm-6 col-xs-12 col-md-3" *ngFor="let pic of profile.photos">
+                    <div class="card" id="card">
                         <div class="img">
                             <img src="../../../assets/{{pic}}" class="img-responsive" />
                         </div>

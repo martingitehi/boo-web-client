@@ -137,8 +137,6 @@ export class API {
             headers.append('Authorization', 'Bearer ' + this.authToken);
             this.http.get(this.authUrl + 'getinfo', { headers: headers }).subscribe((data: any) => {
                 if (data.json().success) {
-                    localStorage.setItem('id', data.json().id);
-                    localStorage.setItem('role', data.json().role);
                     resolve(data.json());
                 }
                 else {
@@ -153,7 +151,6 @@ export class API {
     }
 
     private handleError(error: Response | any) {
-        console.log(error);
         return Observable.throw(error || 'Server error');
     }
 
