@@ -16,8 +16,7 @@ export class DashboardComponent implements OnInit {
     showSearch:boolean=false;
     constructor(private api: API,
         private route: ActivatedRoute,
-        private location: Location,
-        private activatedRoute: ActivatedRoute) { }
+        private location: Location) { }
 
     ngOnInit(): void {
         // this.route.paramMap

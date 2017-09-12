@@ -13,15 +13,13 @@ export class API {
     baseUrl: string;
     authUrl: string;
     authToken: any;
-    isLoggedIn: boolean;
+    public isLoggedIn: boolean = localStorage.getItem('auth_token') != null;
     constructor(http: Http) {
         this.http = http;
         this.baseUrl = 'https://boo-boo.herokuapp.com/api/';
         this.authUrl = 'https://boo-boo.herokuapp.com/auth/';
         // this.baseUrl = 'http://192.168.137.1:3000/api/';
         // this.authUrl = 'http://192.168.137.1:3000/auth/';
-        this.authToken = null;
-        this.isLoggedIn = localStorage.getItem('auth_token') != null;
     }
 
     public CalculateAge(birthdate: Date): number {
@@ -91,12 +89,12 @@ export class API {
     }
 
     storeUserCredentials(token: any) {
-        localStorage.setItem('auth_token', token);
+        window.localStorage.setItem('auth_token', token);
         this.useCredentials(token);
     }
 
     getUserCredentials() {
-        var token = localStorage.getItem('auth_token');
+        var token = window.localStorage.getItem('auth_token');
         this.useCredentials(token);
     }
 
@@ -108,7 +106,16 @@ export class API {
     destroyUserCredentials() {
         this.authToken = null;
         this.isLoggedIn = false;
-        localStorage.clear();
+        window.localStorage.clear();
+    }
+
+    authState() {
+        return new Promise(resolve => {
+            if (this.isLoggedIn) {
+                resolve(true);
+            }
+            resolve(false);
+        });
     }
 
     login(user: any): any {
@@ -136,6 +143,7 @@ export class API {
             var headers = new Headers();
             headers.append('Authorization', 'Bearer ' + this.authToken);
             this.http.get(this.authUrl + 'getinfo', { headers: headers }).subscribe((data: any) => {
+                console.log(data);
                 if (data.json().success) {
                     resolve(data.json());
                 }

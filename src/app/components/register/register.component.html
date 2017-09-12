@@ -1,24 +1,24 @@
 <navbar></navbar>
 <div class="row">
   <div class="container">
-    <div class="alert alert-info" *ngIf="info != ''">
-      <b>{{info}}</b>
+    <div class="alert alert-info" *ngIf="errorInfo != ''">
+      <b>{{errorInfo}}</b>
     </div>
-    <form (submit)="register(profile)" id="needs-validation" novalidate>
+    <form #registerForm="ngForm">
       <div class="row">
         <div class="col-md-12">
           <div class="row">
             <div class="col-md-4 col-sm-12 col-xs-12">
               <label>Username</label>
-              <input type="text" class="form-control" [(ngModel)]="profile.username" name="username" placeholder="Username" required>
+              <input type="text" #usernameCtrl="ngModel" min="5" max="15" class="form-control" [(ngModel)]="profile.username" name="username" placeholder="Username" required>
             </div>
             <div class="col-md-4 col-sm-12 col-xs-12">
               <label>Fullname</label>
-              <input type="text" class="form-control" [(ngModel)]="profile.fullname" name="fullname" placeholder="Your name" required>
+              <input type="text" #nameCtrl="ngModel" max="70" class="form-control" [(ngModel)]="profile.fullname" name="fullname" placeholder="Your name" required>
             </div>
             <div class="col-md-4 col-sm-12 col-xs-12">
               <label>Gender</label>
-              <select class="form-control" [(ngModel)]="profile.gender" name="gender" required>
+              <select class="form-control" #genderCtrl="ngModel" [(ngModel)]="profile.gender" name="gender" required>
                 <option value="Male" selected>Male</option>
                 <option value="Female">Female</option>
                 <option value="Unspecified">I prefer not to say</option>
@@ -31,50 +31,50 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
           <label>About Me</label>
-          <textarea type="text" class="form-control" [(ngModel)]="profile.about" name="about" placeholder="Tell us about yourself"
+          <textarea type="text" #aboutCtrl="ngModel" minlength="1" maxlength="200" class="form-control" [(ngModel)]="profile.about" name="about" placeholder="Tell us about yourself"
             required></textarea>
         </div>
       </div>
       <br />
       <div class="row">
-        <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="col-md-3 col-sm-12 col-xs-12">
           <label>Email</label>
-          <input type="email" class="form-control" [(ngModel)]="profile.contact.email" name="email" placeholder="Email" required>
+          <input #emailCtrl="ngModel" email class="form-control" [(ngModel)]="profile.contact.email" name="email" placeholder="Email" required>
            </div>
-        <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="col-md-3 col-sm-12 col-xs-12">
           <label>Mobile</label>
-          <input type="number" maxlength="10" class="form-control" [(ngModel)]="profile.contact.mobile" name="mobile" placeholder="Mobile Number"
+          <input type="number" maxlength="10" #mobileCtrl="ngModel" class="form-control" [(ngModel)]="profile.contact.mobile" name="mobile" placeholder="Mobile Number"
             required>
         </div>
-        <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="col-md-3 col-sm-12 col-xs-12">
           <label>Date of Birth</label>
-          <input type="date" class="form-control" [(ngModel)]="profile.dob" name="dob" required>
+          <input type="date" class="form-control" #dobCtrl="ngModel" [(ngModel)]="profile.dob" name="dob" required>
                 </div>
-        <div class="col-md-4 col-sm-12 col-xs-12">
+        <div class="col-md-3 col-sm-12 col-xs-12">
           <label>Where are you based?</label>
-          <input type="text" class="form-control" [(ngModel)]="profile.location" name="location" required>
+          <input type="text" class="form-control" #locationCtrl="ngModel" [(ngModel)]="profile.location" name="location" required>
            </div>
       </div>
       <div class="row">
         <div class="col-md-4 col-sm-12 col-xs-12">
           <label>Occupation</label>
-          <input type="text" class="form-control" [(ngModel)]="profile.career" name="career" placeholder="Occupation" required>
+          <input type="text" class="form-control" #careerCtrl="ngModel" [(ngModel)]="profile.career" name="career" placeholder="Occupation" required>
                  </div>
         <div class="col-md-4 col-sm-12 col-xs-12">
           <label>Password</label>
-          <input type="password" class="form-control" [(ngModel)]="profile.password" name="password" placeholder="Choose a Password"
+          <input type="password" #passwordCtrl="ngModel" class="form-control" [(ngModel)]="profile.password" name="password" placeholder="Choose a Password"
             required>
         </div>
         <div class="col-md-4 col-sm-12 col-xs-12">
           <label>Re-enter password</label>
-          <input type="password" class="form-control" [(ngModel)]="profile.password" name="password_verify" placeholder="Re-enter Password"
+          <input type="password" #passwordConfirmCtrl="ngModel" class="form-control" [(ngModel)]="profile.password" name="password_verify" placeholder="Re-enter Password"
             required>
         </div>
       </div>
       <div class="row">
         <div class="col-md-12">
           <label>Relationship Status</label>
-          <select class="form-control" [(ngModel)]="profile.relationships.status" name="status" required>
+          <select class="form-control" #statusCtrl="ngModel" [(ngModel)]="profile.relationships.status" name="status" required>
                 <option value="Single" selected>Single</option>
                 <option value="In a relationship">In a Relationship</option>
                 <option value="Married">Married</option>
@@ -85,7 +85,7 @@
         </div>
         <div class="col-md-12">
             <label>Relationship Goal</label>
-            <select class="form-control" [(ngModel)]="profile.relationships.goal" name="goal" required>
+            <select class="form-control" #goalCtrl="ngModel" [(ngModel)]="profile.relationships.goal" name="goal" required>
               <option value="Dating" selected>Dating</option>
               <option value="Long-term relationship">Long-term relationship</option>
               <option value="Marriage">Marriage</option>
@@ -96,7 +96,7 @@
       <div class="row">
         <div class="col-md-12">
           <label>Interested in</label>
-          <select class="form-control" [(ngModel)]="profile.interests.sex" name="sex" required>
+          <select class="form-control" #sexCtrl="ngModel" [(ngModel)]="profile.interests.sex" name="sex" required>
             <option value="Male" selected>Male</option>
             <option value="Female">Female</option>
             <option value="Both">Both</option>
@@ -106,7 +106,7 @@
       <div class="row">
         <div class="col-md-12">
           <label>Looking for</label>
-          <select class="form-control" [(ngModel)]="profile.interests.others" name="interests" required>
+          <select class="form-control" #otherInterestsCtrl="ngModel" [(ngModel)]="profile.interests.others" name="interests" required>
             <option value="Dating" selected>Dating</option>
             <option value="Long-term relationship">Long-term relationship</option>
             <option value="Marriage">Marriage</option>
@@ -117,27 +117,27 @@
       <div class="row">
         <div class="col-md-3">
           <label>Any Kids?</label>
-          <select class="form-control" [(ngModel)]="profile.relationships.family.has_kids" id="kids" name="has_kids" required>
+          <select class="form-control" #hasKidsCtrl="ngModel" [(ngModel)]="profile.relationships.family.has_kids" id="kids" name="has_kids" required>
             <option value="Yes">Yes</option>
             <option value="No" selected>No</option>
          </select>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" *ngIf="profile.relationships.family.has_kids == true">
           <label>How Many?</label>
-          <input type="number" min="0" value="0" name="no_of_kids" [(ngModel)]="profile.relationships.family.no_of_kids">
+          <input type="number" #nokCtrl="ngModel" class="form-control" min="0" value="0" name="no_of_kids" [(ngModel)]="profile.relationships.family.no_of_kids">
         </div>
       </div>
       <div class="row">
         <div class="col-md-6">
           <label>Do you smoke?</label>
-          <select class="form-control" [(ngModel)]="profile.lifestyle.smokes" name="smokes" required>
+          <select class="form-control" #smokesCtrl="ngModel" [(ngModel)]="profile.lifestyle.smokes" name="smokes" required>
             <option value="Yes">Yes</option>
             <option value="No" selected>No</option>
         </select>
         </div>
         <div class="col-md-6">
-          <label>Do you drink?</label>
-          <select class="form-control" [(ngModel)]="profile.lifestyle.drinks" name="drinks" required>
+          <label>Do you take alcohol?</label>
+          <select class="form-control" #drinksCtrl="ngModel" [(ngModel)]="profile.lifestyle.drinks" name="drinks" required>
             <option value="Yes">Yes</option>
             <option value="No" selected>No</option>
         </select>
@@ -146,50 +146,33 @@
       <div class="row">
         <div class="col-md-6">
           <label>HIV Status</label>
-          <select class="form-control" [(ngModel)]="profile.health.hiv_status.status" name="hiv_status" required>
+          <select class="form-control" #hivStatusCtrl="ngModel" [(ngModel)]="profile.health.hiv_status.status" name="hiv_status" required>
               <option value="Positive">Living Positively</option>
               <option value="Negative" selected>Negative</option>
            </select>
         </div>
         <div class="col-md-6">
           <label>Last tested</label>
-          <input type="date" class="form-control" [(ngModel)]="profile.health.hiv_status.last_tested" name="last_tested">
+          <input type="date" #lastTestedCtrl="ngModel" class="form-control" [(ngModel)]="profile.health.hiv_status.last_tested" name="last_tested">
         </div>
       </div>
       <div class="row">
         <div class="col-md-6 mb-3">
           <label>Any Disabilities?</label>
-          <select class="form-control" [(ngModel)]="profile.health.disability.is_disabled" name="is_disabled" required>
+          <select class="form-control" #disabilityCtrl="ngModel" [(ngModel)]="profile.health.disability.is_disabled" name="is_disabled" required>
                   <option value="Yes">Yes</option>
                   <option value="No" selected>No</option>
               </select>
         </div>
-        <div class="col-md-6 mb-3">
+        <div class="col-md-6 mb-3" *ngIf="profile.health.disability.is_disabled == 'Yes'">
           <label>Type of Disability</label>
-          <input type="text" class="form-control" [(ngModel)]="profile.health.disability.disability_type" name="disability_type">
+          <input #isDisabledCtrl="ngModel" type="text" class="form-control" [(ngModel)]="profile.health.disability.disability_type" name="disability_type">
         </div>
       </div>
       <br />
       <br />
-      <button class="btn btn-primary btn-block" type="submit">Submit</button>
+      <button [disabled]="!loginForm.form.valid" type="submit" class="btn btn-primary btn-lg btn-block" (click)="register(profile)">Submit</button>
       <br />
     </form>
   </div>
 </div>
-<script>
-  // Example starter JavaScript for disabling form submissions if there are invalid fields
-  (function () {
-    "use strict";
-    window.addEventListener("load", function () {
-      var form = document.getElementById("needs-validation");
-      form.addEventListener("submit", function (event) {
-        if (form.checkValidity() == false) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-        form.classList.add("was-validated");
-      }, false);
-    }, false);
-  }());
-
-</script>

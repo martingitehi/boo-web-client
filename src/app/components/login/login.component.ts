@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { API } from "../../services/api.service";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'login',
@@ -10,7 +10,8 @@ import { Router } from "@angular/router";
 export class LoginComponent implements OnInit {
   user: any;
   message: string = '';
-  constructor(private api: API, private router: Router) {
+  info: string = '';
+  constructor(private api: API, private router: Router, private route: ActivatedRoute) {
     this.user = {
       username: '',
       password: ''
@@ -18,6 +19,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.info = this.route.snapshot.params['info'];
   }
 
   login(user: any) {

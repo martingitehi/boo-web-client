@@ -16,13 +16,14 @@ import { HomeComponent } from "./components/home/home.component";
 import { NavbarComponent } from "./components/navbar/navbar.component";
 import { DashnavbarComponent } from "./components/dashnavbar/dashnavbar.component";
 import { OrderByPipe } from "./services/orderby.pipe";
+import { AuthGuard } from "./services/authGuard.service";
 
 const appRoutes: Routes = [
-  { path: 'profiles', component: ProfilesComponent },
+  { path: 'profiles', component: ProfilesComponent, canActivate:[AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'dashboard/:id', component: DashboardComponent },
-  { path: 'profiles/:id/settings', component: SettingsComponent },
+  { path: 'dashboard/:id', component: DashboardComponent, canActivate:[AuthGuard] },
+  { path: 'profiles/:id/settings', component: SettingsComponent, canActivate:[AuthGuard] },
   { path: '', component: HomeComponent },
   { path: '', redirectTo: '', pathMatch: 'full' },
   { path: '**', component: HomeComponent }
@@ -49,6 +50,6 @@ const appRoutes: Routes = [
     DashnavbarComponent
   ],
   bootstrap: [AppComponent], 
-  providers: [API]
+  providers: [AuthGuard,API]
 })
 export class AppModule { }
