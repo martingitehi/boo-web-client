@@ -38,21 +38,23 @@
 
   <div class="row">
     <div style="display: inline-block; column-count:4;">
-      <div class="col-sm-6 col-xs-12 col-md-3 thumbnail" id="card" *ngFor="let profile of profiles | orderby:['!created_on'] | filterby:{'fullname':filter}">
-        <div class="img">
-          <img src="../../../assets/{{profile.avatar_url}}" class="img-responsive" />
-        </div>
-        <div class="caption">
-          <h4>{{ profile.fullname }}</h4>
-          <p>
-            <b>
+      <div class="col-sm-6 col-xs-12 col-md-3" *ngFor="let profile of profiles | orderby:['!created_on'] | filterby:{'fullname':filter}">
+        <div class="thumbnail">
+          <div class="img">
+            <img src="../../../assets/{{profile.avatar_url}}" class="img-responsive" />
+          </div>
+          <div class="caption">
+            <h4>{{ profile.fullname }}</h4>
+            <p>
+              <b>
               <i class="fa fa-heart"></i> {{profile.gender}} in {{profile.location}}
               </b>
-          </p>
-          <p>
-            <button (click)="viewProfile(profile)" class="btn btn-success btn-block">
+            </p>
+            <p>
+              <button (click)="viewProfile(profile)" class="btn btn-success btn-block">
                   <i class="fa fa-eye"></i> View Profile</button>
-          </p>
+            </p>
+          </div>
         </div>
       </div>
     </div>
