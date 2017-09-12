@@ -37,8 +37,8 @@
   </div>
 
   <div class="row" style="display: inline-block; column-count:4;">
-    <div class="col-sm-6 col-md-4">
-      <div class="thumbnail" *ngFor="let profile of profiles | orderby:['!created_on'] | filterby:{'fullname':filter}" id="card">
+    <div class="col-sm-6 col-xs-12 col-md-3" *ngFor="let profile of profiles | orderby:['!created_on'] | filterby:{'fullname':filter}" id="card">
+      <div class="thumbnail" >
         <div class="img">
           <img src="../../../assets/{{profile.avatar_url}}" class="img-responsive" />
         </div>
