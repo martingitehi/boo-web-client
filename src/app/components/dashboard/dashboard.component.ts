@@ -12,6 +12,7 @@ import 'rxjs/add/operator/do';
 })
 export class DashboardComponent implements OnInit {
     profile: any;
+    age:number =0;
     showSearch:boolean=false;
     constructor(private api: API,
         private route: ActivatedRoute,
@@ -24,6 +25,7 @@ export class DashboardComponent implements OnInit {
         //     .subscribe(user => this.profile = user);
         this.api.getProfile(this.route.snapshot.params['id'])
             .subscribe((user) => this.profile = user);
+            this.age = this.api.CalculateAge(this.profile.dob);
     }
 
     goBack(): void {

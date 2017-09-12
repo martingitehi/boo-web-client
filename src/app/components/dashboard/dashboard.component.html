@@ -21,20 +21,20 @@
                     <li class="list-group-item">
                         HIV Status
                         <span class="badge">
+                                {{ profile.health.hiv_status.last_tested | date:'MMM, yyyy' }}
+                            </span> &middot;
+                        <span class="badge">
                             {{ profile.health.hiv_status.status }}
                         </span>
-                        <span class="badge">
-                                {{ profile.health.hiv_status.last_tested | date:'MMM, yyyy' }}
-                            </span>
                     </li>
                     <li class="list-group-item">
                         Height <span class="badge">
-                               {{ profile.physique.height }}
+                               {{ profile.physique.height }} cm
                                </span>
                     </li>
                     <li class="list-group-item">
                         Weight <span class="badge">
-                                {{ profile.physique.weight }}
+                                {{ profile.physique.weight }} kg
                     </span>
                     </li>
                 </div>

@@ -113,7 +113,9 @@ export class API {
 
     login(user: any): any {
         let credentials = JSON.stringify(user);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let headers = new Headers({
+            'Content-Type': 'application/json'
+        });
         return new Promise(resolve => {
             this.http.post(this.authUrl + 'login', credentials, { headers: headers })
                 .subscribe((data: any) => {
