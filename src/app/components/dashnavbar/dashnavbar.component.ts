@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { API } from "../../services/api.service";
 import { Location } from '@angular/common';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'dashnavbar',
@@ -8,16 +9,16 @@ import { Location } from '@angular/common';
   styleUrls: ['./dashnavbar.component.css']
 })
 export class DashnavbarComponent implements OnInit {
-filter:any = '';
-showSearch:boolean=true;
-  constructor(private api:API, private location:Location) { }
+  filter: any = '';
+  showSearch: boolean = true;
+  constructor(private api: API, private router: Router, private location: Location) { }
 
   ngOnInit() {
   }
 
-  logout(){
+  logout() {
     this.api.destroyUserCredentials();
-    this.location.go('');
+    this.router.navigateByUrl('login');
   }
 
 }

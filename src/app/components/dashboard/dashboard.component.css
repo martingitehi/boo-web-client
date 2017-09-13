@@ -1,0 +1,9 @@
+.badge{
+    background-color: purple;
+    color:white;
+}
+
+.nav .navbar > li > a:hover {
+    background-color: dodgerblue;
+    color:white;
+}

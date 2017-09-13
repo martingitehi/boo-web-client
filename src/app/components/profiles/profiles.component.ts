@@ -37,8 +37,8 @@ export class ProfilesComponent implements OnInit {
     this.goBack();
   }
 
-  goBack(): void {
-    this.location.back();
+  goBack() {
+    this.router.navigateByUrl('login');
   }
 
 }

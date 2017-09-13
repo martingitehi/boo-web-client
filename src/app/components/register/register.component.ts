@@ -70,13 +70,11 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-  constructor(private api: API, private route: Router) {
-
-  }
+  constructor(private api: API, private route: Router) {}
 
   register(profile: any) {
     this.api.register(profile).then((info) => {
-      this.route.navigate(['login', info]);
+      this.route.navigateByUrl('login');
     }).catch(err => this.errorInfo = err.message);
   }
 

@@ -23,15 +23,21 @@ export class LoginComponent implements OnInit {
   }
 
   login(user: any) {
-    this.api.login(user).then(data => {
-      this.api.getUserInfo().then(res => {
-        if (res.success) {
-          this.router.navigate(['dashboard', res.info._id]);
-        }
-        else {
-          this.message = res.message;
-        }
-      })
+    this.api.login(user).then((data) => {
+      //check for token
+      if (data) {
+        this.api.getUserInfo().then((res) => {
+          if (res.success) {
+            this.router.navigate(['dashboard', res.info._id]);
+          }
+          else {
+            this.message = res.message;
+          }
+        });
+      }
+      else {
+        this.message = data.message;
+      }
     }).catch(err => this.message = err);
   }
 

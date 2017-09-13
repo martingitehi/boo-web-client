@@ -5,6 +5,7 @@ import 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
+import { environment } from "../../environments/environment";
 
 @Injectable()
 
@@ -16,17 +17,14 @@ export class API {
     public isLoggedIn: boolean = localStorage.getItem('auth_token') != null;
     constructor(http: Http) {
         this.http = http;
-        this.baseUrl = 'https://boo-boo.herokuapp.com/api/';
-        this.authUrl = 'https://boo-boo.herokuapp.com/auth/';
-        // this.baseUrl = 'http://192.168.137.1:3000/api/';
-        // this.authUrl = 'http://192.168.137.1:3000/auth/';
+        this.authUrl = environment.apiConfig.authUrl;
+        this.baseUrl = environment.apiConfig.baseUrl;
     }
 
     public CalculateAge(birthdate: Date): number {
         var timeDiff = Math.abs(Date.now() - birthdate.valueOf());
         return Math.floor((timeDiff / (1000 * 3600 * 24)) / 365);
     }
-
 
     checkout(cart: any, cashier: string, store_id: any, has_credit: boolean, paid_via: string,
         customer: any, receipt_no: string, credit_amount: number) {
@@ -89,12 +87,12 @@ export class API {
     }
 
     storeUserCredentials(token: any) {
-        window.localStorage.setItem('auth_token', token);
+        localStorage.setItem('auth_token', token);
         this.useCredentials(token);
     }
 
     getUserCredentials() {
-        var token = window.localStorage.getItem('auth_token');
+        var token = localStorage.getItem('auth_token');
         this.useCredentials(token);
     }
 
@@ -104,9 +102,9 @@ export class API {
     }
 
     destroyUserCredentials() {
+        localStorage.removeItem('auth_token');
         this.authToken = null;
         this.isLoggedIn = false;
-        window.localStorage.clear();
     }
 
     authState() {
@@ -143,7 +141,6 @@ export class API {
             var headers = new Headers();
             headers.append('Authorization', 'Bearer ' + this.authToken);
             this.http.get(this.authUrl + 'getinfo', { headers: headers }).subscribe((data: any) => {
-                console.log(data);
                 if (data.json().success) {
                     resolve(data.json());
                 }

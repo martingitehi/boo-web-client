@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import { Location } from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/do';
+import { UserAccount } from "../../interfaces/account";
 
 @Component({
     selector: 'dashboard',
@@ -11,11 +12,12 @@ import 'rxjs/add/operator/do';
     styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-    profile: any;
-    age:number =0;
-    showSearch:boolean=false;
+    profile: UserAccount;
+    age: number = 0;
+    showSearch: boolean = false;
     constructor(private api: API,
         private route: ActivatedRoute,
+        private router: Router,
         private location: Location) { }
 
     ngOnInit(): void {
@@ -23,11 +25,13 @@ export class DashboardComponent implements OnInit {
         //     .switchMap((params: ParamMap) => this.api.getProfile(params.get('id')))
         //     .subscribe(user => this.profile = user);
         this.api.getProfile(this.route.snapshot.params['id'])
-            .subscribe((user) => this.profile = user);
-            this.age = this.api.CalculateAge(this.profile.dob);
+            .subscribe((user) => {
+                this.profile = user;
+                this.age = Math.floor(((Date.now() - Date.parse(this.profile.dob)) / (1000 * 3600 * 24)) / 365);
+            });
     }
 
-    goBack(): void {
-        this.location.go('/');
+    goBack() {
+        this.router.navigateByUrl('login');
     }
 }
