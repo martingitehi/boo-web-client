@@ -122,7 +122,7 @@
             <option value='No' selected>No</option>
          </select>
         </div>
-        <div class="col-md-3" *ngIf="profile.relationships.family.has_kids === 'Yes'">
+        <div class="col-md-3" *ngIf="profile.relationships.family.has_kids == true">
           <label>How Many?</label>
           <input type="number" #nokCtrl="ngModel" class="form-control" min="0" value="0" name="no_of_kids" [(ngModel)]="profile.relationships.family.no_of_kids">
         </div>
@@ -164,7 +164,7 @@
                   <option value='No' selected>No</option>
               </select>
         </div>
-        <div class="col-md-6 mb-3" *ngIf="profile.health.disability.is_disabled === 'Yes'">
+        <div class="col-md-6 mb-3" *ngIf="profile.health.disability.is_disabled == true">
           <label>Type of Disability</label>
           <input #isDisabledCtrl="ngModel" type="text" class="form-control" [(ngModel)]="profile.health.disability.disability_type" name="disability_type">
         </div>
