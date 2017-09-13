@@ -118,8 +118,8 @@
         <div class="col-md-3">
           <label>Any Kids?</label>
           <select class="form-control" #hasKidsCtrl="ngModel" [(ngModel)]="profile.relationships.family.has_kids" id="kids" name="has_kids" required>
-            <option value="Yes">Yes</option>
-            <option value="No" selected>No</option>
+            <option value='Yes'>Yes</option>
+            <option value='No' selected>No</option>
          </select>
         </div>
         <div class="col-md-3" *ngIf="profile.relationships.family.has_kids == 'Yes'">
@@ -160,8 +160,8 @@
         <div class="col-md-6 mb-3">
           <label>Any Disabilities?</label>
           <select class="form-control" #disabilityCtrl="ngModel" [(ngModel)]="profile.health.disability.is_disabled" name="is_disabled" required>
-                  <option value="Yes">Yes</option>
-                  <option value="No" selected>No</option>
+                  <option value='Yes'>Yes</option>
+                  <option value='No' selected>No</option>
               </select>
         </div>
         <div class="col-md-6 mb-3" *ngIf="profile.health.disability.is_disabled == 'Yes'">
