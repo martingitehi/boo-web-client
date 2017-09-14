@@ -95,7 +95,10 @@
                 <div class="panel panel-default">
                     <div class="panel panel-heading">
                         Photos &middot; <span class="text-muted"><small>{{profile.photos.length}} photos</small></span>
+                        <input type="file" (change)="handleFiles($event)" multiple id="files" />
+                        <button (click)="uploadPhotos()" class="btn btn-success btn-sm pull-right">Upload Photos</button>
                     </div>
+                    
                     <div class="panel panel-body">
                         <div class="col-sm-4 col-xs-12 col-md-3" *ngFor="let pic of profile.photos">
                             <div class="card" id="card">
