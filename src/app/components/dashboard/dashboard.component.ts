@@ -7,31 +7,37 @@ import 'rxjs/add/operator/do';
 import { UserAccount } from "../../interfaces/account";
 import { Upload } from "../../interfaces/upload";
 import * as _ from 'lodash';
+import { UploadService } from "../../services/upload.service";
+
 @Component({
     selector: 'dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-    profile: UserAccount;
+    profile: UserAccount = null;
     age: number = 0;
     showSearch: boolean = false;
     files: FileList;
     upload: Upload;
-
+    userId:string;
+    photos:any[] = [];
     constructor(private api: API,
         private route: ActivatedRoute,
         private router: Router,
-        private location: Location) { }
+        private location: Location, 
+    private uploadService:UploadService) { }
 
     ngOnInit(): void {
         // this.route.paramMap
         //     .switchMap((params: ParamMap) => this.api.getProfile(params.get('id')))
         //     .subscribe(user => this.profile = user);
-        this.api.getProfile(this.route.snapshot.params['id'])
+        this.userId = this.route.snapshot.params['id'];
+        this.api.getProfile(this.userId)
             .subscribe((user) => {
                 this.profile = user;
-                this.age = Math.floor(((Date.now() - Date.parse(this.profile.dob)) / (1000 * 3600 * 24)) / 365);
+                this.age = this.api.CalculateAge(this.profile.dob);
+                this.photos = this.profile.photos;
             });
     }
 
@@ -47,7 +53,8 @@ export class DashboardComponent implements OnInit {
         const filesToUpload = this.files;
         const filesIdx = _.range(filesToUpload.length);
         _.each(filesIdx, (idx) => {
-            console.log(filesToUpload[idx]);
+            this.upload = new Upload(filesToUpload[idx]);
+            this.uploadService.uploadFile(this.upload, this.userId);
         });
     }
 }

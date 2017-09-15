@@ -5,7 +5,7 @@ import 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
-import { environment } from "../../environments/environment.prod";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 
@@ -21,9 +21,8 @@ export class API {
         this.baseUrl = environment.apiConfig.baseUrl;
     }
 
-    public CalculateAge(birthdate: Date): number {
-        var timeDiff = Math.abs(Date.now() - birthdate.valueOf());
-        return Math.floor((timeDiff / (1000 * 3600 * 24)) / 365);
+    public CalculateAge(birthdate: string): any {
+        return Math.floor(((Date.now() - Date.parse(birthdate)) / (1000 * 3600 * 24)) / 365);
     }
 
     checkout(cart: any, cashier: string, store_id: any, has_credit: boolean, paid_via: string,
@@ -102,7 +101,7 @@ export class API {
     }
 
     destroyUserCredentials() {
-        localStorage.removeItem('auth_token');
+        window.localStorage.removeItem('auth_token');
         this.authToken = null;
         this.isLoggedIn = false;
     }
@@ -126,10 +125,10 @@ export class API {
                 .subscribe((data: any) => {
                     if (data.json().success) {
                         this.storeUserCredentials(data.json().token);
-                        resolve(true);
+                        resolve({success:true});
                     }
                     else {
-                        resolve(false);
+                        resolve({success:false, msg: data.json().message});
                     }
                 });
         });
@@ -140,12 +139,13 @@ export class API {
             this.getUserCredentials();
             var headers = new Headers();
             headers.append('Authorization', 'Bearer ' + this.authToken);
-            this.http.get(this.authUrl + 'getinfo', { headers: headers }).subscribe((data: any) => {
+            this.http.get(this.authUrl + 'getinfo', { headers: headers })
+            .subscribe((data: any) => {
                 if (data.json().success) {
                     resolve(data.json());
                 }
                 else {
-                    resolve(false);
+                    resolve({success:false, msg: data.json().message});
                 }
             });
         });

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { API } from "../../services/api.service";
 import { Router } from "@angular/router";
 import { Location } from '@angular/common';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'customer',
@@ -9,13 +10,12 @@ import { Location } from '@angular/common';
 })
 
 export class ProfilesComponent implements OnInit {
-  profiles: any[];
+  profiles: any[]=[];
   filter: any = '';
   showSearch: boolean = true;
   constructor(private api: API,
     private location: Location,
     private router: Router) {
-    this.profiles = [];
   }
 
   ngOnInit() {
@@ -28,7 +28,10 @@ export class ProfilesComponent implements OnInit {
 
   getProfiles() {
     this.api.getProfiles().subscribe((res: any[]) => {
-      this.profiles = res;
+      res.forEach((user) => {
+        this.profiles.push({ profile: user, age: this.api.CalculateAge(user.dob) });
+      });
+      console.log(this.profiles);
     }, (error: Error) => console.error(error));
   }
 

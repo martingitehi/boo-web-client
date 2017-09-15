@@ -17,6 +17,7 @@ import { NavbarComponent } from "./components/navbar/navbar.component";
 import { DashnavbarComponent } from "./components/dashnavbar/dashnavbar.component";
 import { OrderByPipe } from "./services/orderby.pipe";
 import { AuthGuard } from "./services/authGuard.service";
+import { UploadService } from "./services/upload.service";
 
 const appRoutes: Routes = [
   { path: 'profiles', component: ProfilesComponent, canActivate:[AuthGuard] },
@@ -50,6 +51,6 @@ const appRoutes: Routes = [
     DashnavbarComponent
   ],
   bootstrap: [AppComponent], 
-  providers: [AuthGuard,API]
+  providers: [AuthGuard,API, UploadService]
 })
 export class AppModule { }

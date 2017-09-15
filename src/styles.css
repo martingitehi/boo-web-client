@@ -11,6 +11,15 @@
     position: relative;
   }
   
+  .gallery-image{
+    margin: 1px 1px;
+  }
+
+  .panel{
+    padding: 2px;
+    column-gap: inherit;
+  }
+
   .img {
     position: relative;
     padding-bottom: 100%;
@@ -45,21 +54,20 @@
   }
   
   #badge {
-    font-family: 'Varela Round';
-    background-color: purple;
+    background-color:purple;
     color: white;
     position: absolute;
     bottom: 0px;
     padding:5px;
     margin:0px;
-    width:70%;
-    border-top-right-radius: 100%;
-    font-size: 11pt;
+    width:100%;
+    /* border-top-right-radius: 100%; */
+    font-size:inherit;
     vertical-align: auto;
     text-overflow: ellipsis;
     overflow: hidden;
-    opacity: 0.65;
-    filter: alpha(opacity=65);
+    opacity: 0.75;
+    filter: alpha(opacity=75);
   }
   
   /* .title{
@@ -75,9 +83,9 @@
   
   #card{
     padding-bottom:5px;    
-    margin-top:2px 1px 1px 1px;
-     /* box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.3);
-      -moz-box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.3);
-      -webkit-box-shadow: 0px 4px 15px -4px rgba(0,0,0,0.3); */
+    margin-top:1px;
+     box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.3);
+      -moz-box-shadow:0px 0px 15px 0px rgba(0,0,0,0.3);
+      -webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.3);
       /* border-radius: 5%; */
   }

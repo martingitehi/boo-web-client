@@ -25,18 +25,18 @@ export class LoginComponent implements OnInit {
   login(user: any) {
     this.api.login(user).then((data) => {
       //check for token
-      if (data) {
+      if (data.success) {
         this.api.getUserInfo().then((res) => {
           if (res.success) {
             this.router.navigate(['dashboard', res.info._id]);
           }
-          else {
-            this.message = res.message;
+          else {            
+            this.message = res.msg;
           }
         });
       }
       else {
-        this.message = data.message;
+        this.message = data.msg;
       }
     }).catch(err => this.message = err);
   }

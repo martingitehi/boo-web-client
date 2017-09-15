@@ -1,13 +1,12 @@
 <dashnavbar></dashnavbar>
 <div class="container">
     <div class="row" style="margin-bottom: 20px;">
-        <div class="col-md-3 col-md-offset-1 col-xs-12 col-sm-12">
+        <div class="col-md-3 col-xs-12 col-sm-3 col-md-offset-1 col-sm-offset-1">
             <div class="img">
-                <img src="../../../assets/{{profile.avatar_url}}" class="img-responsive" 
-                alt="">
+                <img src="../../../assets/{{profile.avatar_url}}" class="img-responsive" alt="">
             </div>
         </div>
-        <div class="col-md-8 col-xs-12 col-sm-12">
+        <div class="col-md-8 col-xs-12 col-sm-8">
             <h3>
                 {{ profile.fullname }}
                 <span class="badge">{{ profile.relationships.status }}</span>
@@ -35,9 +34,9 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3 col-md-offset-1 col-xs-12">
+        <div class="col-md-3 col-md-offset-1 col-xs-12 col-sm-12">
             <div class="row">
-                <div class="list-group col-xs-12">
+                <div class="list-group">
                     <li class="list-group-item active">
                         About Me
                     </li>
@@ -67,13 +66,13 @@
             </div>
             <br />
             <div class="row">
-                <div class="list-group col-xs-12">
+                <div class="list-group">
                     <li class="list-group-item active">
                         Relationships
                     </li>
                     <li class="list-group-item">
                         Kids <span class="badge">
-                            {{ profile.relationships.family.has_kids == true ? profile.relationships.family.no_of_kids + ' kid' : 'None' }}
+                            {{ profile.relationships.family.has_kids ? profile.relationships.family.no_of_kids + ' kids' : 'None' }}
                          </span>
                     </li>
                     <li class="list-group-item">
@@ -90,18 +89,20 @@
             </div>
         </div>
 
-        <div class="col-md-8 col-xs-12">
-            <div class="row" *ngIf="profile.photos.length > 0">
+        <div class="col-md-8 col-xs-12 col-sm-12">
+            <div class="row" *ngIf="photos.length > 0">
                 <div class="panel panel-default">
                     <div class="panel panel-heading">
-                        Photos &middot; <span class="text-muted"><small>{{profile.photos.length}} photos</small></span>
-                        <input type="file" (change)="handleFiles($event)" multiple id="files" />
-                        <button (click)="uploadPhotos()" class="btn btn-success btn-sm pull-right">Upload Photos</button>
+                        <p>
+                            Photos &middot; <span class="text-muted"><small>{{photos.length}} photos</small></span>
+                            <input type="file" (change)="handleFiles($event)" multiple id="files" class="pull-right" />
+                            <button (click)="uploadPhotos()" class="btn btn-success btn-sm pull-right">Upload Photos</button>
+                        </p>
                     </div>
-                    
+
                     <div class="panel panel-body">
-                        <div class="col-sm-4 col-xs-12 col-md-3" *ngFor="let pic of profile.photos">
-                            <div class="card" id="card">
+                        <div class="col-sm-4 col-xs-6 col-md-4" *ngFor="let pic of photos">
+                            <div class="gallery-image">
                                 <div class="img">
                                     <img src="../../../assets/{{pic}}" class="img-responsive" />
                                 </div>

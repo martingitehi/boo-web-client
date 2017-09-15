@@ -3,6 +3,7 @@ export class Upload {
     file: File;
     url: string;
     progress: number;
+    name:string;
     createdOn: Date = new Date();
 
     constructor(file: File) {
