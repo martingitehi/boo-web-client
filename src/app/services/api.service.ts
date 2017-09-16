@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/Rx';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireDatabase } from 'angularfire2/database';
+import { FirebaseApp } from 'angularfire2';
+import * as firebase from 'firebase';
 import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/catch';
 import { environment } from "../../environments/environment.prod";
+import { GalleryImage } from '../interfaces/gallery-image';
+import { UserAccount } from "../interfaces/account";
 
 @Injectable()
 
@@ -15,7 +19,7 @@ export class API {
     authUrl: string;
     authToken: any;
     public isLoggedIn: boolean = localStorage.getItem('auth_token') != null;
-    constructor(http: Http) {
+    constructor(http: Http, private db: AngularFireDatabase) {
         this.http = http;
         this.authUrl = environment.apiConfig.authUrl;
         this.baseUrl = environment.apiConfig.baseUrl;
@@ -47,7 +51,7 @@ export class API {
             .catch(this.handleError);
     }
 
-    getProfiles() {
+    getProfiles(): Observable<UserAccount[]> {
         return this.http.get(this.baseUrl + 'profiles')
             .map(this.extractData)
             .catch(this.handleError);
@@ -57,6 +61,19 @@ export class API {
         return this.http.get(this.baseUrl + 'profiles/' + id)
             .map(this.extractData)
             .catch(this.handleError);
+    }
+
+    uploadImages(id: string, images: string[]) {
+        let body = JSON.stringify(images);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.put(this.baseUrl + `profile/${id}/upload`, body, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    getImages(userId: any): Observable<GalleryImage[]> {
+        return this.db.list(`uploads/${userId}`);
     }
 
     register(user: any): any {
@@ -125,10 +142,10 @@ export class API {
                 .subscribe((data: any) => {
                     if (data.json().success) {
                         this.storeUserCredentials(data.json().token);
-                        resolve({success:true});
+                        resolve({ success: true });
                     }
                     else {
-                        resolve({success:false, msg: data.json().message});
+                        resolve({ success: false, msg: data.json().message });
                     }
                 });
         });
@@ -140,14 +157,14 @@ export class API {
             var headers = new Headers();
             headers.append('Authorization', 'Bearer ' + this.authToken);
             this.http.get(this.authUrl + 'getinfo', { headers: headers })
-            .subscribe((data: any) => {
-                if (data.json().success) {
-                    resolve(data.json());
-                }
-                else {
-                    resolve({success:false, msg: data.json().message});
-                }
-            });
+                .subscribe((data: any) => {
+                    if (data.json().success) {
+                        resolve(data.json());
+                    }
+                    else {
+                        resolve({ success: false, msg: data.json().message });
+                    }
+                });
         });
     }
 

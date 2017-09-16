@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { API } from "../../services/api.service";
 import { Router } from "@angular/router";
 import { Location } from '@angular/common';
 import * as _ from 'lodash';
+import { Observable } from "rxjs/Observable";
+import { UserAccount } from "../../interfaces/account";
 
 @Component({
   selector: 'customer',
   templateUrl: './profiles.component.html'
 })
 
-export class ProfilesComponent implements OnInit {
-  profiles: any[]=[];
+export class ProfilesComponent implements OnInit, OnChanges {
+  profiles: Observable<UserAccount[]>;
   filter: any = '';
   showSearch: boolean = true;
   constructor(private api: API,
@@ -22,17 +24,17 @@ export class ProfilesComponent implements OnInit {
     this.getProfiles();
   }
 
+  ngOnChanges() {
+    this.getProfiles();
+  }
+
   viewProfile(profile: any) {
     this.router.navigate(['dashboard', profile._id]);
   }
 
   getProfiles() {
-    this.api.getProfiles().subscribe((res: any[]) => {
-      res.forEach((user) => {
-        this.profiles.push({ profile: user, age: this.api.CalculateAge(user.dob) });
-      });
-      console.log(this.profiles);
-    }, (error: Error) => console.error(error));
+    this.profiles = this.api.getProfiles();
+    console.log(this.profiles);
   }
 
   logout() {
