@@ -10,7 +10,6 @@ import { API } from "./api.service";
 @Injectable()
 export class UploadService {
     private basePath = '/uploads';
-    private mongoImages:string[] = [];
 
     constructor(private ngFire: AngularFireModule,
         private db: AngularFireDatabase,
@@ -37,21 +36,17 @@ export class UploadService {
                 upload.url = putUpload.snapshot.downloadURL;
                 upload.name = upload.file.name;
                 this.uploadToFirebase(upload, userId);
-                this.mongoImages.push(upload.url);
+                this.uploadToDB(userId, upload.url);
             }
         );
-        putUpload.on(firebase.storage.TaskState.SUCCESS, (cb) => {
-            this.uploadToDB(userId);
-            console.log('upload complete notifier:' + cb);
-        });
     }
     private uploadToFirebase(upload: Upload, userId: string) {
         this.db.list(`uploads/${userId}`).push(upload);
         console.log('To Firebase: ' + upload.url);       
     }
 
-    private uploadToDB(userId:string){
-        this.api.uploadImages(userId, this.mongoImages).subscribe(res => {
+    private uploadToDB(userId:string, upload:string){
+        this.api.uploadImages(userId, upload).subscribe(res => {
             console.log(res);
         });
     }

@@ -63,8 +63,8 @@ export class API {
             .catch(this.handleError);
     }
 
-    uploadImages(id: string, images: string[]) {
-        let body = JSON.stringify(images);
+    uploadImages(id: string, image: string) {
+        let body = JSON.stringify({ image: image });
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
         return this.http.put(this.baseUrl + `profile/${id}/upload`, body, options)
