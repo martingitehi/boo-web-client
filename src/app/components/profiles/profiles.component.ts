@@ -42,7 +42,7 @@ export class ProfilesComponent implements OnInit, OnChanges {
   }
 
   goBack() {
-    this.router.navigateByUrl('login');
+    this.router.navigate(['/login']);
   }
 
 }
