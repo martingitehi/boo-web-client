@@ -32,9 +32,8 @@ export class ProfilesComponent implements OnInit, OnChanges {
     this.router.navigate(['dashboard', profile._id]);
   }
 
-  getProfiles() {
-    this.profiles = this.api.getProfiles();
-    console.log(this.profiles);
+  async getProfiles() {
+    this.profiles = await this.api.getProfiles();
   }
 
   logout() {

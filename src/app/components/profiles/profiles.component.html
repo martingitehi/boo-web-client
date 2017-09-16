@@ -48,13 +48,13 @@
 </nav>
 <div class="container">
   <div class="row">
-    <div class="col-sm-6 col-xs-12 col-md-3" *ngFor="let user of profiles | orderby:['!user.created_on']">
-      <div class="img" style="margin:5px;" (click)="viewProfile(user.profile)">
-        <img src="../../../assets/{{user.profile.avatar_url}}" />
+    <div class="col-sm-6 col-xs-12 col-md-3" *ngFor="let user of profiles | async">
+      <div class="img" style="margin:5px;" (click)="viewProfile(user)">
+        <img src="{{user.photos[0]}}" />
         <div id="badge">
-          <h4>{{ user.profile.fullname }}</h4>
+          <h4>{{ user.fullname }}</h4>
             <b>
-              <i class="{{user.profile.gender == 'Female' ? 'fa fa-female' : 'fa fa-male'}}"></i> {{user.age}} years in {{user.profile.location}}
+              <i class="{{user.gender == 'Female' ? 'fa fa-female' : 'fa fa-male'}}"></i> in {{user.location}}
               </b>
           <!-- <p>
             <button (click)="viewProfile(user.profile)" class="btn btn-warning btn-block">
