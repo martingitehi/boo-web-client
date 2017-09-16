@@ -17,7 +17,7 @@ import { GalleryImage } from "../../interfaces/gallery-image";
     styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit, OnChanges {
-    profile: UserAccount = null;
+    profile: any;
     age: number = 0;
     showSearch: boolean = false;
     files: FileList;

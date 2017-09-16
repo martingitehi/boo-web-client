@@ -103,7 +103,7 @@
                     </div>
 
                     <div class="panel panel-body" style="padding: 1px;">
-                        <div class="col-sm-4 col-xs-6 col-md-4" *ngFor="let pic of photos">
+                        <div class="col-sm-4 col-xs-6 col-md-4" *ngFor="let pic of photos | async">
                             <div class="gallery-image" (click)="viewImage(pic)">
                                 <div class="img">
                                     <img src="{{pic.url}}" class="img-responsive" />

@@ -40,9 +40,9 @@ export class UploadService {
                 this.mongoImages.push(upload.url);
             }
         );
-        putUpload.on(firebase.storage.TaskState.SUCCESS, (res) => {
+        putUpload.on(firebase.storage.TaskState.SUCCESS, (cb) => {
             this.uploadToDB(userId);
-            console.log('upload complete notifier:' + res);
+            console.log('upload complete notifier:' + cb);
         });
     }
     private uploadToFirebase(upload: Upload, userId: string) {
@@ -52,7 +52,7 @@ export class UploadService {
 
     private uploadToDB(userId:string){
         this.api.uploadImages(userId, this.mongoImages).subscribe(res => {
-            console.log({'To MongoDb:': this.mongoImages});
+            console.log(res);
         });
     }
 }
