@@ -6,6 +6,9 @@
                 Update Profile
             </div>
             <div class="panel panel-body">
+                <div id="response" *ngIf="response" class="alert alert-info">
+                    {{response}}
+                </div>
                 <form #registerForm="ngForm">
                     <div class="row">
                         <div class="col-md-12">

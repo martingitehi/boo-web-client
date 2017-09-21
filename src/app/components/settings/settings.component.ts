@@ -17,6 +17,8 @@ export class SettingsComponent implements OnInit {
   file: File;
   id: any;
   profile: UserAccount;
+  response:string;
+
   constructor(private uploadService: UploadService, private api: API, private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -33,17 +35,11 @@ export class SettingsComponent implements OnInit {
 
   handleFiles(event) {
     this.files = event.target.files;
-    // console.log(this.files);
   }
 
   update(profile: UserAccount) {
-    // this.upload = new Upload(this.files[0]);
-    // this.uploadService.uploadFile(this.upload, this.route.snapshot.params['id'], true);
-    // this.api.uploadImages(this.id, this.upload.file, true).subscribe(res => {
-    // console.log('To MongoDB: ' + res.message);
-    // console.log(res.file);
     this.api.updateProfile(this.profile, this.id).subscribe(res => {
-      console.log(res);
+      this.response = res;
     });
   }
 
