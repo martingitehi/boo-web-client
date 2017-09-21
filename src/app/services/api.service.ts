@@ -176,7 +176,8 @@ export class API {
             this.http.get(this.authUrl + 'getinfo', { headers: headers })
                 .subscribe((data: any) => {
                     if (data.json().success) {
-                        localStorage.setItem('user', JSON.stringify({id:data.info._id, name:data.info.fullname}));
+                        console.log(data.json());
+                        localStorage.setItem('user', JSON.stringify({id:data.json().info._id, name:data.json().info.fullname}));
                         resolve(data.json());
                     }
                     else {
