@@ -14,6 +14,8 @@ import "rxjs/add/operator/map";
 export class RegisterComponent implements OnInit {
   profile: UserAccount;
   errorInfo:string='';
+  _file:File;
+  
   ngOnInit() {
     this.profile = {
       username: '',
@@ -55,7 +57,7 @@ export class RegisterComponent implements OnInit {
       health: {
         hiv_status: {
           status: '',
-          last_tested: new Date().setFullYear(1980, 1, 1).toString()
+          last_tested: new Date().setFullYear(2017, 1, 1).toString()
         },
         disability: {
           disability_type: 'None',
@@ -74,8 +76,7 @@ export class RegisterComponent implements OnInit {
 
   register(profile: any) {
     this.api.register(profile).then((info) => {
-      this.route.navigateByUrl('login');
+      this.route.navigate(['/login']);
     }).catch(err => this.errorInfo = err.message);
   }
-
 }

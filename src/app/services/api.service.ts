@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 import 'rxjs/add/operator/map';
@@ -10,6 +10,7 @@ import 'rxjs/add/operator/catch';
 import { environment } from "../../environments/environment.prod";
 import { GalleryImage } from '../interfaces/gallery-image';
 import { UserAccount } from "../interfaces/account";
+import { Chat } from "../interfaces/chat.interface";
 
 @Injectable()
 
@@ -51,19 +52,19 @@ export class API {
             .catch(this.handleError);
     }
 
-    getProfiles(): Observable<UserAccount[]> {
+    getProfiles(): any {
         return this.http.get(this.baseUrl + 'profiles')
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    getProfile(id: any) {
+    getProfile(id: any): Observable<UserAccount> {
         return this.http.get(this.baseUrl + 'profiles/' + id)
             .map(this.extractData)
             .catch(this.handleError);
     }
 
-    uploadImages(id: string, image: string) {
+    uploadAvatar(id: string, image: string) {
         let body = JSON.stringify({ image: image });
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
@@ -72,7 +73,7 @@ export class API {
             .catch(this.handleError);
     }
 
-    getImages(userId: any): Observable<GalleryImage[]> {
+    getImages(userId: any): FirebaseListObservable<GalleryImage[]> {
         return this.db.list(`uploads/${userId}`);
     }
 
@@ -93,11 +94,27 @@ export class API {
         });
     }
 
-    updateProduct(product: any) {
-        let body = JSON.stringify(product);
+    updateProfile(profile: any, id: any) {
+        let body = JSON.stringify(profile);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.put(this.baseUrl + 'products/' + product._id, body, options)
+        return this.http.put(this.baseUrl + 'profiles/' + id, body, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    postChat(chat: Chat, id: any) {
+        console.log(chat);
+        let body = JSON.stringify(chat);
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+        return this.http.post(this.baseUrl + 'chats/' + id, body, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    getChats(id: any) {
+        return this.http.get(this.baseUrl + 'chats')
             .map(this.extractData)
             .catch(this.handleError);
     }
@@ -159,6 +176,7 @@ export class API {
             this.http.get(this.authUrl + 'getinfo', { headers: headers })
                 .subscribe((data: any) => {
                     if (data.json().success) {
+                        localStorage.setItem('user', JSON.stringify({id:data.info._id, name:data.info.fullname}));
                         resolve(data.json());
                     }
                     else {

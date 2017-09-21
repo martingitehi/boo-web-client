@@ -25,18 +25,19 @@ import { UploadService } from "./services/upload.service";
 import { ChatsComponent } from './components/chats/chats.component';
 import { ChatComponent } from './components/chat/chat.component';
 import * as firebase from 'firebase';
+import { FooterComponent } from './components/footer/footer.component';
 
 const appRoutes: Routes = [
   { path: 'profiles', component: ProfilesComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'chats', component: ChatsComponent, canActivate: [AuthGuard] },
-  { path: 'chats/:id', component: ChatComponent, canActivate: [AuthGuard] },
+  { path: 'chats/:id', component: ChatsComponent, canActivate: [AuthGuard] },
+  { path: 'chat/:id', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard/:id', component: DashboardComponent, canActivate: [AuthGuard] },
-  { path: 'profiles/:id/settings', component: SettingsComponent, canActivate: [AuthGuard] },
-  { path: '', component: HomeComponent },
+  { path: 'profiles/:id/preferences', component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: '', component: LoginComponent },
   { path: '', redirectTo: '', pathMatch: 'full' },
-  { path: '**', component: HomeComponent }
+  { path: '**', component: LoginComponent }
 ];
 
 firebase.initializeApp(environment.firebase);
@@ -64,7 +65,8 @@ firebase.initializeApp(environment.firebase);
     NavbarComponent,
     DashnavbarComponent,
     ChatsComponent,
-    ChatComponent
+    ChatComponent,
+    FooterComponent
   ],
   bootstrap: [AppComponent],
   providers: [AuthGuard, API, UploadService]

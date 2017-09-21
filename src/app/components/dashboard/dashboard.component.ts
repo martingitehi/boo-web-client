@@ -4,12 +4,13 @@ import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import { Location } from '@angular/common';
 import { UserAccount } from "../../interfaces/account";
 import { Upload } from "../../interfaces/upload";
-import * as _ from 'lodash';
-import 'rxjs/add/operator/switchMap';
-import 'rxjs/add/operator/do';
 import { Observable } from 'rxjs/Observable';
 import { UploadService } from "../../services/upload.service";
 import { GalleryImage } from "../../interfaces/gallery-image";
+import { FirebaseListObservable } from "angularfire2/database";
+import * as _ from 'lodash';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/do';
 
 @Component({
     selector: 'dashboard',
@@ -17,14 +18,15 @@ import { GalleryImage } from "../../interfaces/gallery-image";
     styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit, OnChanges {
-    profile: any;
+    profile: UserAccount;
     age: number = 0;
     showSearch: boolean = false;
     files: FileList;
+    file:File;
     upload: Upload;
     userId: string;
-    photos: Observable<GalleryImage[]>;
-
+    photos: FirebaseListObservable<GalleryImage[]>;
+    
     constructor(private api: API,
         private route: ActivatedRoute,
         private router: Router,
@@ -49,19 +51,26 @@ export class DashboardComponent implements OnInit, OnChanges {
     }
 
     goBack() {
-        this.router.navigateByUrl('login');
+        this.router.navigate(['/login']);
     }
 
     handleFiles(event) {
         this.files = event.target.files;
     }
 
-    uploadPhotos() {
+    uploadPhoto(){
+        const files = this.files;
+        const file:File = files[0];
+        this.upload = new Upload(file);
+        this.uploadService.uploadFile(this.upload, this.userId, true);
+    }
+
+    uploadPhotos(isAvatar: boolean) {
         const filesToUpload = this.files;
         const filesIdx = _.range(filesToUpload.length);
         _.each(filesIdx, (idx) => {
             this.upload = new Upload(filesToUpload[idx]);
-            this.uploadService.uploadFile(this.upload, this.userId);
+            this.uploadService.uploadFile(this.upload, this.userId, isAvatar);
         });
     }
 }

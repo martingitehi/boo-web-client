@@ -15,7 +15,7 @@ export class UploadService {
         private db: AngularFireDatabase,
         private api: API) { }
 
-    uploadFile(upload: Upload, userId: string) {
+    uploadFile(upload: Upload, userId: string, isAvatar: boolean) {
         const ref = firebase.storage().ref();
         const putUpload = ref
             .child(`${this.basePath}/${userId}/${upload.file.name}`)
@@ -36,18 +36,20 @@ export class UploadService {
                 upload.url = putUpload.snapshot.downloadURL;
                 upload.name = upload.file.name;
                 this.uploadToFirebase(upload, userId);
-                this.uploadToDB(userId, upload.url);
+                if (isAvatar) {
+                    this.uploadToDB(userId, upload.url);
+                }
             }
         );
     }
     private uploadToFirebase(upload: Upload, userId: string) {
         this.db.list(`uploads/${userId}`).push(upload);
-        console.log('To Firebase: ' + upload.url);       
+        console.log('To Firebase: ' + upload.url);
     }
 
-    private uploadToDB(userId:string, upload:string){
-        this.api.uploadImages(userId, upload).subscribe(res => {
-            console.log(res);
+    private uploadToDB(userId: string, upload: string) {
+        this.api.uploadAvatar(userId, upload).subscribe(res => {
+            console.log('To MongoDB: ' + res.message);
         });
     }
 }

@@ -12,7 +12,7 @@ import { UserAccount } from "../../interfaces/account";
 })
 
 export class ProfilesComponent implements OnInit, OnChanges {
-  profiles: Observable<UserAccount[]>;
+  profiles: UserAccount[] = [];
   filter: any = '';
   showSearch: boolean = true;
   constructor(private api: API,
@@ -28,12 +28,16 @@ export class ProfilesComponent implements OnInit, OnChanges {
     this.getProfiles();
   }
 
+  getAge(profile: UserAccount): number {
+    return this.api.CalculateAge(profile.dob);
+  }
+
   viewProfile(profile: any) {
     this.router.navigate(['dashboard', profile._id]);
   }
 
-  async getProfiles() {
-    this.profiles = await this.api.getProfiles();
+  getProfiles() {
+    this.api.getProfiles().subscribe(res => this.profiles = res);
   }
 
   logout() {

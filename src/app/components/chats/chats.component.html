@@ -1,3 +1,58 @@
-<p>
-  chats works!
-</p>
+<dashnavbar></dashnavbar>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4" id="chat-menu">
+      <div class="row">
+        <input type="text" class="form-control" [(ngModel)]="filter" name="filter" placeholder="Search name, gender, location etc.">
+      </div>
+      <br />
+      <div class="row">
+        <div class="list-group" style="width:100%;" *ngFor="let m of messages;">
+          <button type="button" class="list-group-item" (click)="getThread(m)">
+            <span class="badge">{{m.messages.length}}</span>
+            <h4><b>{{m.sender}}</b></h4>
+            <p class="text-muted">
+                {{m.messages[m.messages.length-1].content}}
+              <br />
+            </p>
+        </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="panel panel-default">
+        <div class="panel panel-heading">
+          Messages
+        </div>
+        <div class="panel panel-body">
+          <div class="container">
+            <div class="row">
+              <div id="response">
+                {{reponse}}
+              </div>
+            </div>
+            <div class="row" *ngIf="thread">
+              <div class="media" *ngFor="let m of thread.messages | orderby:['!m.sent']; let i=index;">
+                <div class="media-body">
+                  <h4 class="media-heading">{{m.content}}</h4>
+                  <span class="badge pull-right"> {{m.sent | date:'dd MMM hh:mm a'}}</span>
+                </div>
+                <div class="media-right media-middle">
+                  <a routerLink="['/dashboard', m.sender]">
+                          <img class="media-object img-circle" src="../../../assets/images/imagles.jpg" height="50" width="50" alt="...">
+                        </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>        
+        <div class="panel-footer">
+          <p>
+            <input type="text" style="width:80%;" (keydown)="handleSend($event)" class="form-control pull-left" [(ngModel)]="content" placeholder="Type your message here" />
+            <button (click)="sendMessage()" style="width:20%;" class="btn btn-success btn-block pull-right">Send</button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,4 @@
-/* .row{
-  height:100%; width:100%; background-color: transparent;
-  background-image: url('../../../assets/images/pic (1).jpg');
-  background-size: cover;
-} */
+.jumbotron{
+     background-color: transparent;
+     color:black;
+}

@@ -25,7 +25,7 @@
     }
 
     // Connect to socket.io
-    var socket = io.connect('http://192.168.137.1:3000');
+    var socket = io.connect('https://boo-boo.herokuapp.com/4000');
 
     // Check for connection
     if (socket !== undefined) {
