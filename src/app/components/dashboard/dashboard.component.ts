@@ -56,6 +56,7 @@ export class DashboardComponent implements OnInit, OnChanges {
 
     handleFiles(event) {
         this.files = event.target.files;
+        console.log(this.files);
     }
 
     uploadPhoto(){

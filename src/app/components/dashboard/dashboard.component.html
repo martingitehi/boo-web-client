@@ -123,8 +123,6 @@
                             <span class="badge">Photos</span>
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-success btn-sm pull-right" data-toggle="modal" data-target="#myModal">Upload Photos</button>
-
-                            <input type="file" (change)="handleFiles($event)" multiple id="files" class="pull-right" />
                         </p>
                     </div>
 
@@ -148,7 +146,10 @@
                             <h4 class="modal-title" id="myModalLabel">Photo Upload</h4>
                         </div>
                         <div class="modal-body">
-                            ...
+                            <div class="row">
+                                <label>Choose Photos</label>
+                                <input type="file" (change)="handleFiles($event)" multiple id="files" class="pull-right" />
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
