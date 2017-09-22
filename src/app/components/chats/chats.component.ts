@@ -18,6 +18,8 @@ export class ChatsComponent implements OnInit {
   thread: any[] = [];
   content: string;
   user: any;
+  filter:string='';
+  reponse:string='';
   constructor(private api: API, private authGuard:AuthGuard,
      private route: ActivatedRoute) {
     this.id = this.route.snapshot.params['id'];
@@ -50,7 +52,6 @@ export class ChatsComponent implements OnInit {
   }
 
   getThread(chat: any) {
-    console.log(chat);
     this.thread = chat;
   }
 

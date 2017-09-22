@@ -5,6 +5,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node boo.js",
+    "serve": "ng build --aot --target=production",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

@@ -68,9 +68,17 @@ export class API {
         let body = JSON.stringify({ image: image });
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
-        return this.http.put(this.baseUrl + `profile/${id}/upload`, body, options)
-            .map(this.extractData)
-            .catch(this.handleError);
+        return new Promise(resolve => {
+            return this.http.put(this.baseUrl + `profile/${id}/upload`, body, options)
+                .subscribe((res) => {
+                    if (res.success) {
+                        resolve(res.json().url);
+                    }
+                    else {
+                        resolve(false);
+                    }
+                });
+        });
     }
 
     getImages(userId: any): FirebaseListObservable<GalleryImage[]> {
@@ -96,7 +104,7 @@ export class API {
 
     updateProfile(profile: any, id: any) {
         let body = JSON.stringify(profile);
-        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let headers = new Headers({ 'Content-Type': 'application/json', 'Authorization': localStorage.getItem('auth_token') });
         let options = new RequestOptions({ headers: headers });
         return this.http.put(this.baseUrl + 'profiles/' + id, body, options)
             .map(this.extractData)
@@ -104,7 +112,6 @@ export class API {
     }
 
     postChat(chat: Chat, id: any) {
-        console.log(chat);
         let body = JSON.stringify(chat);
         let headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ headers: headers });
@@ -155,7 +162,7 @@ export class API {
             'Content-Type': 'application/json'
         });
         return new Promise(resolve => {
-            this.http.post(this.authUrl + 'login', credentials, { headers: headers })
+           return this.http.post(this.authUrl + 'login', credentials, { headers: headers })
                 .subscribe((data: any) => {
                     if (data.json().success) {
                         this.storeUserCredentials(data.json().token);
@@ -173,11 +180,10 @@ export class API {
             this.getUserCredentials();
             var headers = new Headers();
             headers.append('Authorization', 'Bearer ' + this.authToken);
-            this.http.get(this.authUrl + 'getinfo', { headers: headers })
+           return this.http.get(this.authUrl + 'getinfo', { headers: headers })
                 .subscribe((data: any) => {
                     if (data.json().success) {
-                        console.log(data.json());
-                        localStorage.setItem('user', JSON.stringify({id:data.json().info._id, name:data.json().info.fullname}));
+                        localStorage.setItem('user', JSON.stringify({ id: data.json().info._id, name: data.json().info.fullname }));
                         resolve(data.json());
                     }
                     else {

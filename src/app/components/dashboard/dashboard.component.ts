@@ -22,11 +22,15 @@ export class DashboardComponent implements OnInit, OnChanges {
     age: number = 0;
     showSearch: boolean = false;
     files: FileList;
-    file:File;
+    file: File;
     upload: Upload;
     userId: string;
     photos: FirebaseListObservable<GalleryImage[]>;
+    valid: boolean = false;
+    info: any[];
+    uploading: boolean = false;
     
+
     constructor(private api: API,
         private route: ActivatedRoute,
         private router: Router,
@@ -34,9 +38,7 @@ export class DashboardComponent implements OnInit, OnChanges {
         private uploadService: UploadService) { }
 
     ngOnInit(): void {
-        // this.route.paramMap
-        //     .switchMap((params: ParamMap) => this.api.getProfile(params.get('id')))
-        //     .subscribe(user => this.profile = user);
+        this.info = [];
         this.userId = this.route.snapshot.params['id'];
         this.api.getProfile(this.userId)
             .subscribe((user) => {
@@ -56,22 +58,46 @@ export class DashboardComponent implements OnInit, OnChanges {
 
     handleFiles(event) {
         this.files = event.target.files;
-        console.log(this.files);
+        const idx = _.range(this.files.length);
+        this.checkFileValidity(this.files);
     }
 
-    uploadPhoto(){
+    uploadAvatar() {
         const files = this.files;
-        const file:File = files[0];
-        this.upload = new Upload(file);
-        this.uploadService.uploadFile(this.upload, this.userId, true);
+        const file: File = files[0];
+        if (this.checkFileValidity(this.files)) {
+            this.upload = new Upload(file);
+            this.uploadService.uploadAvatar(this.userId, this.upload.file.name);
+        }
+    }
+
+    checkFileValidity(files: FileList): boolean {
+        const len = _.range(files.length);
+        _.each(files, (f) => {
+            if (!(f.type === "image/jpeg" || f.type === "image/png") && (f.size / 1024 / 1024) > 4) {
+                this.info.push[`${f.name} is not valid: ${f.type} and ${f.size / 1024 / 1024} MB.`];
+            }
+        });
+        if (this.info.length > 0) {
+            this.valid = false;
+            return false;
+        }
+        else {
+            this.valid = true;
+            return true;
+        }
     }
 
     uploadPhotos(isAvatar: boolean) {
         const filesToUpload = this.files;
         const filesIdx = _.range(filesToUpload.length);
         _.each(filesIdx, (idx) => {
-            this.upload = new Upload(filesToUpload[idx]);
-            this.uploadService.uploadFile(this.upload, this.userId, isAvatar);
+            if (this.checkFileValidity(filesToUpload)) {
+                this.upload = new Upload(filesToUpload[idx]);
+                this.uploadService.uploadFile(this.upload, this.userId, isAvatar);
+                this.info = [];
+                this.info.push['All files are valid for upload.'];
+            }
         });
     }
 }

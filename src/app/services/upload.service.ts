@@ -15,7 +15,7 @@ export class UploadService {
         private db: AngularFireDatabase,
         private api: API) { }
 
-    uploadFile(upload: Upload, userId: string, isAvatar: boolean) {
+    uploadFile(upload: Upload, userId: string, isAvatar: boolean): any {
         const ref = firebase.storage().ref();
         const putUpload = ref
             .child(`${this.basePath}/${userId}/${upload.file.name}`)
@@ -25,11 +25,10 @@ export class UploadService {
             //get a snapshot of the progress
             (snapshot) => {
                 upload.progress = (putUpload.snapshot.bytesTransferred / putUpload.snapshot.totalBytes) * 100;
-                console.log(upload.progress);
             },
             //log any errors
             (error) => {
-                console.log(error);
+                console.error(error);
             },
             //after successful upload, do something with the callback info
             (): any => {
@@ -37,19 +36,24 @@ export class UploadService {
                 upload.name = upload.file.name;
                 this.uploadToFirebase(upload, userId);
                 if (isAvatar) {
-                    this.uploadToDB(userId, upload.url);
+                    this.uploadAvatar(userId, upload.url);
                 }
             }
         );
     }
+
     private uploadToFirebase(upload: Upload, userId: string) {
         this.db.list(`uploads/${userId}`).push(upload);
-        console.log('To Firebase: ' + upload.url);
     }
 
-    private uploadToDB(userId: string, upload: string) {
-        this.api.uploadAvatar(userId, upload).subscribe(res => {
-            console.log('To MongoDB: ' + res.message);
+    uploadAvatar(userId: string, upload: string): any {
+        this.api.uploadAvatar(userId, upload).then(res => {
+            return res;
         });
+    }
+
+    getImage(key:string, userId:any){
+        return firebase.database().ref(`uploads/${userId}`+key).once('value')
+        .then((snap)=>snap.val());
     }
 }

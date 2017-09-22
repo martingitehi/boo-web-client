@@ -104,16 +104,12 @@
                     </div>
                     <br />
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label>HIV Status</label>
                             <select class="form-control" #hivStatusCtrl="ngModel" [(ngModel)]="profile.health.hiv_status.status" name="hiv_status" required>
                                             <option value="Positive">Living Positively</option>
                                             <option value="Negative" selected>Negative</option>
                                          </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label>Last tested</label>
-                            <input type="date" #lastTestedCtrl="ngModel" class="form-control" [(ngModel)]="profile.health.hiv_status.last_tested" name="last_tested">
                         </div>
                     </div>
                 </form>

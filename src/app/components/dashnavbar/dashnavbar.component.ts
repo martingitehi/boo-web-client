@@ -17,16 +17,23 @@ export class DashnavbarComponent implements OnInit {
   showSearch: boolean = true;
   id: any;
   messages: Chat[] = [];
-  user: UserAccount;
+  user: any;
+  profile:any = {
+    id: '',
+    name: ''
+  };
 
-  constructor(private api: API, private authGuard:AuthGuard, 
+
+  constructor(private api: API, private authGuard: AuthGuard,
     private router: Router,
     private route: ActivatedRoute,
     private location: Location) {
-    this.id = this.route.snapshot.params['id'];    
+
   }
 
-  ngOnInit(){
+  ngOnInit() {
+    this.id = this.route.snapshot.params['id'];
+    this.profile = JSON.parse(localStorage.getItem('user'));
     this.api.getProfile(this.id).subscribe(res => this.user = res);
     this.getChats();
   }

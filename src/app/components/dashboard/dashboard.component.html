@@ -1,14 +1,14 @@
 <dashnavbar></dashnavbar>
 <div class="container">
-    <div class="row" style="margin-bottom: 10px;">
+    <div class="row" style="margin-bottom: 5px;">
         <div class="col-md-3 col-xs-12 col-sm-3">
             <div class="img" *ngIf="profile && profile.avatar_url">
-                <img src="{{profile.avatar_url}}" class="img-responsive" alt="" />
+                <img src="../../../assets/images/{{profile.avatar_url}}" class="img-responsive img-circle" alt="" />
             </div>
             <br />
             <div *ngIf="profile && !profile.avatar_url">
                 <input type="file" (change)="handleFiles($event)" class="form-control">
-                <button class="btn btn-sm btn-block btn-success" (click)="uploadPhoto()">Upload</button>
+                <button class="btn btn-sm btn-block btn-success" (click)="uploadAvatar()">Upload</button>
             </div>
         </div>
         <div class="col-md-9 col-xs-12 col-sm-9">
@@ -26,10 +26,10 @@
                 <span class="badge">{{ age }} years</span>
             </p>
             <p class="text-muted">
-                <a href="https://www.facebook.com/{{ profile.social.fb }}" *ngIf="profile.social.fb !== ''" class="btn btn-sm btn-default">
+                <a href="https://www.facebook.com/{{ profile.social.fb }}" class="btn btn-sm btn-default" target="_blank">
                                     <i class="fa fa-facebook"></i> Facebook
                                 </a>
-                <a href="https://www.instagram.com/{{ profile.social.instagram }}" *ngIf="profile.social.instagram !== ''" class="btn btn-sm btn-default">
+                <a href="https://www.instagram.com/{{ profile.social.instagram }}" target="_blank" class="btn btn-sm btn-default">
                                     <i class="fa fa-instagram"></i> Instagram
                                 </a>
                 <!-- <a href="/chats/{{profile._id}}" class="btn btn-default btn-sm">
@@ -42,70 +42,54 @@
         <div class="col-md-3 col-xs-12 col-sm-12">
             <div style="padding:0px 8px;">
                 <div class="row">
-                    <div class="list-group">
+                    <div class="list-group" class="sticker">
                         <li class="list-group-item active">
                             About Me
                         </li>
                         <li class="list-group-item">
-                            <i class="fa fa-medicine"></i> HIV Status
-                            <br />
-                            <p>
-                                <span class="badge">
-                           {{ profile.health.hiv_status.status }}
-                        </span>
-                            </p>
+                            I work as a {{profile.career}}
                         </li>
                         <li class="list-group-item">
-                            <i class="fa fa-calendar"></i> Last Tested
-                            <br />
-                            <p>
-                                <span class="badge">
-                             {{ profile.health.hiv_status.last_tested | date:'MMM, yyyy' }}
-                        </span>
-                            </p>
-                        </li>
-                        <li class="list-group-item">
-                            <i class="fa fa-ruler"></i> Physique
-                            <br />
-                            <p>
-                                <span class="badge">
-                                        <i class="fa fa-ruler"></i>
-                               {{ profile.physique.height }} cm
-                               </span>
-
-                                <span class="badge">
-                                        <i class="fa fa-gym"></i>
-                                {{ profile.physique.weight }} kg
-                                </span>
-                            </p>
+                            I am {{ profile.physique.height }} cm tall and {{ profile.physique.weight }} kg
                         </li>
                     </div>
                 </div>
                 <br />
                 <div class="row">
-                    <div class="list-group">
+                    <div class="list-group" class="sticker">
                         <li class="list-group-item active">
                             Relationships
                         </li>
                         <li class="list-group-item">
-                            <i class="fa fa-baby"></i> Kids
-                            <span class="badge">                        
-                            {{ profile.relationships.family.has_kids ? profile.relationships.family.no_of_kids + ' kids' : 'None' }}
-                         </span>
+                            I am {{ profile.relationships.status }}
                         </li>
                         <li class="list-group-item">
-                            <i class="fa fa-sine"></i> Status
-                            <span class="badge">
-                            {{ profile.relationships.status }}
-                        </span>
+                            I {{ profile.relationships.family.no_of_kids > 0 ? 'have ' + profile.relationships.family.no_of_kids + ' kids' : 'have no kids.'
+                            }}
                         </li>
                         <li class="list-group-item">
-                            <i class="fa fa-flash"></i> Looking for
-                            <span class="badge">
-                            {{ profile.relationships.goal }}
-                        </span>
+                            I am interested in {{ profile.interests.sex == "Both" ? "men and women" : profile.interests.sex}}
+                            for {{profile.relationships.goal}}
+                        </li>
+                        <li class="list-group-item">
+                            Other interests <br />
+                            <p *ngFor="let i of profile.interests.others">
+                            <span class="badge">{{i}}</span>
+                            </p>
                         </li>
                     </div>
+                </div>
+                <div class="row">
+                    <ul class="list-group sticker">
+                        <li class="list-group-item active">Health</li>
+                        <li class="list-group-item">
+                            I am HIV {{ profile.health.hiv_status.status != 'Confidential' ? profile.health.hiv_status.status : 'Ask me' }}
+                        </li>
+                        <li class="list-group-item">
+                            I have a {{ profile.health.disability.is_disabled ==true ? profile.health.disability.disability_type + ' disability' : 'no
+                            disability' }}
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -113,7 +97,7 @@
         <div class="col-md-9 col-xs-12 col-sm-12">
             <div class="row" *ngIf="!photos">
                 <p class="text-center text-muted">
-                    No photos found at this time.
+                    No photos found at this time. Try adding some.
                 </p>
             </div>
             <div class="row" *ngIf="photos">
@@ -130,7 +114,7 @@
                         <div class="col-sm-4 col-xs-6 col-md-4" *ngFor="let pic of photos | async">
                             <div class="gallery-image" (click)="viewImage(pic)">
                                 <div class="img">
-                                    <img src="{{pic.url}}" class="img-responsive" />
+                                    <img src="{{pic.key}}" class="img-responsive" />
                                 </div>
                             </div>
                         </div>
@@ -139,21 +123,42 @@
             </div>
 
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog" role="modal">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="myModalLabel">Photo Upload</h4>
                         </div>
                         <div class="modal-body">
-                            <div class="row">
-                                <label>Choose Photos</label>
-                                <input type="file" (change)="handleFiles($event)" multiple id="files" class="pull-right" />
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-offset-1 col-md-10">
+                                        <div class="alert alert-danger">
+                                            <ul *ngFor="let e of info">
+                                                <li>{{e}}</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <p>
+                                        <label>Choose Photos</label>
+                                    </p>
+                                    <p>
+                                        <input type="file" (change)="handleFiles($event)" multiple id="files" />
+                                    </p>
+                                    <br />
+                                    <div *ngIf="files">
+                                        <ul *ngFor="let file of files">
+                                            <li><b>{{file.name}} &middot; {{file.type}} - {{file.size}}</b></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" (click)="uploadPhotos()">Upload</button>
+                            <button type="button" class="btn btn-primary" [disabled]="!valid" (click)="uploadPhotos()">Upload</button>
                         </div>
                     </div>
                 </div>
