@@ -64,17 +64,16 @@
                             I am {{ profile.relationships.status }}
                         </li>
                         <li class="list-group-item">
-                            I {{ profile.relationships.family.no_of_kids > 0 ? 'have ' + profile.relationships.family.no_of_kids + ' kids' : 'have no kids.'
-                            }}
+                            I {{ profile.relationships.family.no_of_kids > 0 ? 'have ' + profile.relationships.family.no_of_kids + ' kids' : 'have no
+                            kids.' }}
                         </li>
                         <li class="list-group-item">
-                            I am interested in {{ profile.interests.sex == "Both" ? "men and women" : profile.interests.sex}}
-                            for {{profile.relationships.goal}}
+                            I am interested in {{ profile.interests.sex == "Both" ? "men and women" : profile.interests.sex}} for {{profile.relationships.goal}}
                         </li>
                         <li class="list-group-item">
                             Other interests <br />
                             <p *ngFor="let i of profile.interests.others">
-                            <span class="badge">{{i}}</span>
+                                <span class="badge">{{i}}</span>
                             </p>
                         </li>
                     </div>
@@ -114,7 +113,7 @@
                         <div class="col-sm-4 col-xs-6 col-md-4" *ngFor="let pic of photos | async">
                             <div class="gallery-image" (click)="viewImage(pic)">
                                 <div class="img">
-                                    <img src="{{pic.key}}" class="img-responsive" />
+                                    <img src="{{pic.url}}" class="img-responsive" />
                                 </div>
                             </div>
                         </div>
@@ -163,6 +162,33 @@
                     </div>
                 </div>
             </div>
+
+            <!-- image modal -->
+            <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Photo</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-offset-1 col-md-10">
+                                        <div id="card">
+                                            <img src="{{imageUrl}}" class="img-responsive" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                           </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end of image modal -->
         </div>
     </div>
 </div>

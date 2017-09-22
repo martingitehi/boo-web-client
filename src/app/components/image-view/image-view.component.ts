@@ -17,7 +17,7 @@ export class ImageViewComponent implements OnInit {
     this.getImageUrl(this.route.snapshot.params['id'], this.userId);
   }
 
-  
+  ///get the image to display and show it.
   getImageUrl(key:string, userId:any){
     this.uploadService.getImage(key, userId).then(res=> this.imageUrl = res);
 }
