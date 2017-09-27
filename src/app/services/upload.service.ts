@@ -17,14 +17,14 @@ export class UploadService {
 
     uploadFile(upload: Upload, userId: string, isAvatar: boolean): any {
         const ref = firebase.storage().ref();
-        const putUpload = ref
+        const fileUpload = ref
             .child(`${this.basePath}/${userId}/${upload.file.name}`)
             .put(upload.file);
 
-        putUpload.on(firebase.storage.TaskEvent.STATE_CHANGED,
+        fileUpload.on(firebase.storage.TaskEvent.STATE_CHANGED,
             //get a snapshot of the progress
             (snapshot) => {
-                upload.progress = (putUpload.snapshot.bytesTransferred / putUpload.snapshot.totalBytes) * 100;
+                upload.progress = (fileUpload.snapshot.bytesTransferred / fileUpload.snapshot.totalBytes) * 100;
             },
             //log any errors
             (error) => {
@@ -32,7 +32,7 @@ export class UploadService {
             },
             //after successful upload, do something with the callback info
             (): any => {
-                upload.url = putUpload.snapshot.downloadURL;
+                upload.url = fileUpload.snapshot.downloadURL;
                 upload.name = upload.file.name;
                 this.uploadToFirebase(upload, userId);
                 if (isAvatar) {
@@ -47,13 +47,13 @@ export class UploadService {
     }
 
     uploadAvatar(userId: string, upload: string): any {
-        this.api.uploadAvatar(userId, upload).then(res => {
-            return res;
-        });
+        this.api.uploadAvatar(userId, upload).then(res => { return res });
     }
 
-    getImage(key:string, userId:any){
-        return firebase.database().ref(`uploads/${userId}`+key).once('value')
-        .then((snap)=>snap.val());
+    getImage(key: string, userId: any) {
+        return firebase.database()
+            .ref(`uploads/${userId}` + key)
+            .once('value')
+            .then((snap) => snap.val());
     }
 }

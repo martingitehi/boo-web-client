@@ -7,7 +7,7 @@ import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { environment } from "../../environments/environment.prod";
+import { environment } from "../../environments/environment";
 import { GalleryImage } from '../interfaces/gallery-image';
 import { UserAccount } from "../interfaces/account";
 import { Chat } from "../interfaces/chat.interface";
