@@ -88,7 +88,7 @@
                             I am HIV {{ profile.health.hiv_status.status != 'Confidential' ? profile.health.hiv_status.status : 'Ask me' }}
                         </li>
                         <li class="list-group-item">
-                            I have a {{ profile.health.disability.is_disabled ==true ? profile.health.disability.disability_type + ' disability' : 'no
+                            I have a {{ profile.health.disability.is_disabled =='Yes' ? profile.health.disability.disability_type + ' disability' : 'no
                             disability' }}
                         </li>
                     </ul>
@@ -160,7 +160,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" [disabled]="!valid" (click)="uploadPhotos()">Upload</button>
+                            <button type="button" class="btn btn-primary" [disabled]="!valid" (click)="uploadPhotos(false)">Upload</button>
                         </div>
                     </div>
                 </div>
@@ -187,7 +187,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                           </div>
+                        </div>
                     </div>
                 </div>
             </div>

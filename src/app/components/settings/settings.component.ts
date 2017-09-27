@@ -25,7 +25,7 @@ export class SettingsComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
+    this.id = JSON.parse(localStorage.getItem('user')).id;
     this.api.getProfile(this.id).subscribe((user) => {
       this.profile = user;
     });
@@ -46,7 +46,7 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  deleteAccount(id:any){
+  removeAccount(id:any){
     this.api.deleteAccount(id).then((res)=>{
       this.router.navigate(['/login']);
     })
