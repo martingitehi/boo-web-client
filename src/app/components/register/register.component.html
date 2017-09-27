@@ -160,11 +160,11 @@
           <label>Any Kids?</label>
           <select class="form-control" #hasKidsCtrl="ngModel" [(ngModel)]="profile.relationships.family.has_kids" id="kids" name="has_kids"
             required>
-            <option [value]=true>Yes</option>
-            <option [value]=false [selected]>No</option>
+            <option value='Yes'>Yes</option>
+            <option value='No' [selected]>No</option>
          </select>
         </div>
-        <div class="col-md-3" *ngIf="profile.relationships.family.has_kids == true">
+        <div class="col-md-3" *ngIf="profile.relationships.family.has_kids == 'Yes'">
           <label>How Many?</label>
           <input type="number" #nokCtrl="ngModel" class="form-control" min="0" value="0" name="no_of_kids" [(ngModel)]="profile.relationships.family.no_of_kids">
         </div>
@@ -215,7 +215,7 @@
       </div>
       <br />
       <div class="input-group">
-        <input type="checkbox" value="0" #agreeTerms="ngModel" name="terms" [(ngModel)]="terms" required/> I agree to abide
+        <input type="checkbox" value="0" required/> I agree to abide
         by the Terms of Service as outlined.
       </div>
       <br />

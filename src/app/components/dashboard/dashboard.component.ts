@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit, OnChanges {
     valid: boolean = false;
     info: any[];
     uploading: boolean = false;
-
+    imageUrl:string;
 
     constructor(private api: API,
         private route: ActivatedRoute,
@@ -72,6 +72,10 @@ export class DashboardComponent implements OnInit, OnChanges {
                 this.uploadService.uploadFile(this.upload, this.userId, true);
             }
         });
+    }
+    
+    viewImage(url:string){
+        this.imageUrl = url;
     }
 
     checkFileValidity(files: FileList): Promise<boolean> {

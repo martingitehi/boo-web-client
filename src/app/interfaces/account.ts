@@ -31,7 +31,7 @@ export interface Health {
 }
 
 export interface Disability {
-  is_disabled: boolean;
+  is_disabled: string;
   disability_type: string;
 }
 
@@ -52,7 +52,7 @@ export interface Relationships {
 }
 
 export interface Family {
-  has_kids: boolean;
+  has_kids: string;
   no_of_kids: number;
 }
 

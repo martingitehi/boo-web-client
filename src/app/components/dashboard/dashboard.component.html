@@ -4,6 +4,7 @@
         <div class="col-md-3 col-xs-12 col-sm-3">
             <div class="img" *ngIf="profile && profile.avatar_url">
                 <img src="{{profile.avatar_url}}" class="img-responsive img-circle" alt="" />
+                <br />
                 <input type="file" (change)="handleFiles($event)" class="form-control">
                 <button class="btn btn-sm btn-block btn-success" (click)="uploadAvatar()">Upload</button>
             </div>
@@ -113,7 +114,7 @@
 
                     <div class="panel panel-body" style="padding: 1px;">
                         <div class="col-sm-4 col-xs-6 col-md-4" *ngFor="let pic of photos | async">
-                            <div class="gallery-image" (click)="viewImage(pic)">
+                            <div class="gallery-image" (click)="viewImage(pic.url)" data-toggle="modal" data-target="#imageModal">
                                 <div class="img">
                                     <img src="{{pic.url}}" class="img-responsive" />
                                 </div>
@@ -177,7 +178,7 @@
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-offset-1 col-md-10">
-                                        <div id="card">
+                                        <div id="img">
                                             <img src="{{imageUrl}}" class="img-responsive" alt="">
                                         </div>
                                     </div>

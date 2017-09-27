@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit {
       physique: {
         weight: 0,
         height: 0,
-        complexion: 'black'
+        complexion: 'Black'
       },
       gender: '',
       location: '',
@@ -46,7 +46,7 @@ export class RegisterComponent implements OnInit {
         status: 'Single',
         goal: '',
         family: {
-          has_kids: false,
+          has_kids: '',
           no_of_kids: 0
         }
       },
@@ -61,7 +61,7 @@ export class RegisterComponent implements OnInit {
         },
         disability: {
           disability_type: 'None',
-          is_disabled: false
+          is_disabled: ''
         }
       },
       social: {
