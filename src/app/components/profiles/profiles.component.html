@@ -1,40 +1,48 @@
 <nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-        aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      <a class="navbar-brand" routerLink="/profiles">Boo</a>
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+          aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+        <a class="navbar-brand" routerLink="/profiles">Boo</a>
+      </div>
+  
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <form class="navbar-form navbar-left">
+          <div class="form-group">
+            <input type="text" class="form-control" [(ngModel)]="filter" name="filter" placeholder="Search name, gender, location etc.">
+          </div>
+        </form>
+  
+        <ul class="nav navbar-nav navbar-right">
+          <!-- <li class="nav-item">
+            <a class="nav-link" routerLink="/chats/{{id}}" id="noti-area">
+              <span class="fa fa-bell"></span>
+              <div id="badge-round">{{messages.length}}</div>
+            </a>
+          </li> -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{profile.name}}<span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a routerLink="/dashboard/{{profile.id}}">My Account</a></li>
+              <li><a routerLink="/profiles/{{profile.id}}/preferences">Preferences</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a routerLink="/logout">Sign Out</a></li>
+            </ul>
+          </li>
+        </ul>
+  
+      </div>
+      <!-- /.navbar-collapse -->
     </div>
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-     <form class="navbar-form navbar-right" *ngIf="showSearch">
-        <div class="form-group">
-          <input type="text" class="form-control" [(ngModel)]="filter" name="filter" placeholder="Search name, gender, location etc.">
-        </div>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">My Profile</a></li>
-            <li><a href="#">Preferences</a></li>
-            <li role="separator" class="divider"></li>
-            <li><a href="#">Sign Out</a></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <!-- /.navbar-collapse -->
-  </div>
-  <!-- /.container-fluid -->
-</nav>
+    <!-- /.container-fluid -->
+  </nav>
 <div class="container">
   <div class="row">
     <div class="col-sm-4 col-xs-12 col-md-3" *ngFor="let user of profiles">

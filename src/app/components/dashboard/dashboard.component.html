@@ -32,10 +32,6 @@
                 <a href="https://www.instagram.com/{{ profile.social.instagram }}" target="_blank" class="btn btn-sm btn-default">
                                     <i class="fa fa-instagram"></i> Instagram
                                 </a>
-                <span *ngIf="profile && profile.avatar_url">
-                                <input type="file" (change)="handleFiles($event)" class="form-control">
-                                <button class="btn btn-sm btn-success" (click)="uploadAvatar()">Upload</button>
-                                </span>
                 <!-- <a href="/chats/{{profile._id}}" class="btn btn-default btn-sm">
                                     <i class="fa fa-send"></i> Message
                                 </a> -->

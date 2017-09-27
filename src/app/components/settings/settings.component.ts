@@ -4,11 +4,13 @@ import { Upload } from "../../interfaces/upload";
 import { UploadService } from "../../services/upload.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { API } from "../../services/api.service";
+import { DashboardComponent } from "../dashboard/dashboard.component";
 
 @Component({
   selector: 'settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+  styleUrls: ['./settings.component.css'],
+  providers: [DashboardComponent]
 })
 export class SettingsComponent implements OnInit {
   titles: any[];
@@ -17,12 +19,14 @@ export class SettingsComponent implements OnInit {
   file: File;
   id: any;
   profile: UserAccount;
-  response:string;
+  response: string;
+  errors:any[];
+  imageUrl: string;
 
-  constructor(private uploadService: UploadService, 
-    private router:Router,
-    private api: API, 
-    private route: ActivatedRoute) { }
+  constructor(private uploadService: UploadService,
+    private router: Router,
+    private api: API,
+    private route: ActivatedRoute, private dash: DashboardComponent) { }
 
   ngOnInit() {
     this.id = JSON.parse(localStorage.getItem('user')).id;
@@ -38,6 +42,7 @@ export class SettingsComponent implements OnInit {
 
   handleFiles(event) {
     this.files = event.target.files;
+    console.log(this.files);
   }
 
   update(profile: UserAccount) {
@@ -46,10 +51,29 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  removeAccount(id:any){
-    this.api.deleteAccount(id).then((res)=>{
-      this.router.navigate(['/login']);
+  removeAccount(id: any) {
+    this.api.deleteAccount(id).then((res) => {
+      if (res.success) {
+        this.api.destroyUserCredentials();
+        this.router.navigate(['/login']);
+      }
+      else {
+        this.response = res.message;
+      }
+
     })
+  }
+
+  uploadAvatar() {
+    const _files = this.files;
+    const file: File = _files[0];
+    this.dash.checkFileValidity(_files, this.errors).then((res) => {
+      console.log(res);
+      if (res == true) {
+        this.upload = new Upload(file);
+        this.uploadService.uploadFile(this.upload, this.id, true);
+      }
+    });
   }
 
 }

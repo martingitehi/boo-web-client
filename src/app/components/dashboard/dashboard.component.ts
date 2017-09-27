@@ -27,9 +27,9 @@ export class DashboardComponent implements OnInit, OnChanges {
     userId: string;
     photos: FirebaseListObservable<GalleryImage[]>;
     valid: boolean = false;
-    info: any[];
+    info: any[] = [];
     uploading: boolean = false;
-    imageUrl:string;
+    imageUrl: string;
 
     constructor(private api: API,
         private route: ActivatedRoute,
@@ -59,39 +59,42 @@ export class DashboardComponent implements OnInit, OnChanges {
     handleFiles(event) {
         this.files = event.target.files;
         const idx = _.range(this.files.length);
-        this.checkFileValidity(this.files);
+        this.checkFileValidity(this.files, this.info);
     }
 
-    uploadAvatar() {
+    public uploadAvatar() {
         const files = this.files;
         const file: File = files[0];
-        this.checkFileValidity(files).then((res) => {
+        this.checkFileValidity(files, this.info).then((res) => {
             console.log(res);
             if (res == true) {
+                this.valid = true;
                 this.upload = new Upload(file);
                 this.uploadService.uploadFile(this.upload, this.userId, true);
             }
+            else {
+                this.valid = false;
+            }
         });
     }
-    
-    viewImage(url:string){
+
+    viewImage(url: string) {
         this.imageUrl = url;
     }
 
-    checkFileValidity(files: FileList): Promise<boolean> {
+    public checkFileValidity(files: FileList, errors:any[]): Promise<boolean> {
+        errors = [];
         const len = _.range(files.length);
         return new Promise(resolve => {
             _.each(files, (f) => {
                 if (!(f.type === "image/jpeg" || f.type === "image/png") && (f.size / 1024 / 1024) > 4) {
-                    this.info.push[`${f.name} is not valid: ${f.type} and ${f.size / 1024 / 1024} MB.`];
+                    errors.push[`${f.name} is not valid: ${f.type} and ${f.size / 1024 / 1024} MB.`];
                 }
             });
-            if (this.info.length > 0) {
-                this.valid = false;
+            if (errors.length > 0) {
                 resolve(false);
             }
             else {
-                this.valid = true;
                 resolve(true);
             }
         });
@@ -101,12 +104,16 @@ export class DashboardComponent implements OnInit, OnChanges {
         const filesToUpload = this.files;
         const filesIdx = _.range(filesToUpload.length);
         _.each(filesIdx, (idx) => {
-            this.checkFileValidity(filesToUpload).then((res) => {
+            this.checkFileValidity(filesToUpload, this.info).then((res) => {
                 if (res == true) {
+                    this.valid = true;
                     this.upload = new Upload(filesToUpload[idx]);
                     this.uploadService.uploadFile(this.upload, this.userId, isAvatar);
                     this.info = [];
                     this.info.push['All files are valid for upload.'];
+                }
+                else {
+                    this.valid = false;
                 }
             });
         });

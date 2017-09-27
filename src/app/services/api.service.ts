@@ -64,15 +64,15 @@ export class API {
             .catch(this.handleError);
     }
 
-    deleteAccount(id: any) {
+    deleteAccount(id: any):Promise<any> {
         return new Promise(resolve => {
-            this.http.delete(this.authUrl + id + '/delete')
-                .subscribe(res => {
-                    if (res.success) {
-                        resolve(res.message);
+            this.http.delete(this.baseUrl + 'profiles/' + id)
+                .subscribe((res:any) => {
+                    if (res.json().success) {
+                        resolve(res.json());
                     }
                     else {
-                        resolve(res.message);
+                        resolve(res.json());
                     }
                 });
         });

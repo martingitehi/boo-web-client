@@ -13,7 +13,8 @@ import { UserAccount } from "../../interfaces/account";
 
 export class ProfilesComponent implements OnInit, OnChanges {
   profiles: UserAccount[] = [];
-  filter: any = '';
+  profile:any;
+  filter = '';
   showSearch: boolean = true;
   constructor(private api: API,
     private location: Location,
@@ -21,6 +22,7 @@ export class ProfilesComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.profile = JSON.parse(localStorage.getItem('user'));
     this.getProfiles();
   }
 

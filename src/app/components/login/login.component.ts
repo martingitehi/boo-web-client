@@ -11,6 +11,7 @@ export class LoginComponent implements OnInit {
   user: any;
   message: string = '';
   info: string = '';
+  engaged:boolean=false;
   constructor(private api: API, private router: Router, private route: ActivatedRoute) {
     this.user = {
       username: '',
@@ -23,7 +24,9 @@ export class LoginComponent implements OnInit {
   }
 
   login(user: any) {
+    this.engaged=true;
     this.api.login(user).then((data) => {
+      this.engaged=false;
       //check for token
       if (data.success) {
         this.api.getUserInfo().then((res) => {
