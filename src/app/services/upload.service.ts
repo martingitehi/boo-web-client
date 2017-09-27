@@ -25,6 +25,7 @@ export class UploadService {
             //get a snapshot of the progress
             (snapshot) => {
                 upload.progress = (fileUpload.snapshot.bytesTransferred / fileUpload.snapshot.totalBytes) * 100;
+                console.log(upload.progress + '% uploaded');
             },
             //log any errors
             (error) => {
@@ -47,7 +48,7 @@ export class UploadService {
     }
 
     uploadAvatar(userId: string, upload: string): any {
-        this.api.uploadAvatar(userId, upload).then(res => { return res });
+        this.api.uploadAvatar(userId, upload).then(res => {console.log(res); return res });
     }
 
     getImage(key: string, userId: any) {

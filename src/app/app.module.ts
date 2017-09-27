@@ -24,7 +24,6 @@ import { AuthGuard } from "./services/authGuard.service";
 import { UploadService } from "./services/upload.service";
 import { ChatsComponent } from './components/chats/chats.component';
 import * as firebase from 'firebase';
-import { FooterComponent } from './components/footer/footer.component';
 import { ImageViewComponent } from './components/image-view/image-view.component';
 
 const appRoutes: Routes = [
@@ -64,7 +63,6 @@ const appRoutes: Routes = [
     NavbarComponent,
     DashnavbarComponent,
     ChatsComponent,
-    FooterComponent,
     ImageViewComponent
   ],
   bootstrap: [AppComponent],

@@ -7,7 +7,7 @@ import { FirebaseApp } from 'angularfire2';
 import * as firebase from 'firebase';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { environment } from "../../environments/environment";
+import { environment } from "../../environments/environment.prod";
 import { GalleryImage } from '../interfaces/gallery-image';
 import { UserAccount } from "../interfaces/account";
 import { Chat } from "../interfaces/chat.interface";
@@ -62,6 +62,20 @@ export class API {
         return this.http.get(this.baseUrl + 'profiles/' + id)
             .map(this.extractData)
             .catch(this.handleError);
+    }
+
+    deleteAccount(id: any) {
+        return new Promise(resolve => {
+            this.http.delete(this.authUrl + id + '/delete')
+                .subscribe(res => {
+                    if (res.success) {
+                        resolve(res.message);
+                    }
+                    else {
+                        resolve(res.message);
+                    }
+                });
+        });
     }
 
     uploadAvatar(id: string, image: string) {
@@ -162,7 +176,7 @@ export class API {
             'Content-Type': 'application/json'
         });
         return new Promise(resolve => {
-           return this.http.post(this.authUrl + 'login', credentials, { headers: headers })
+            return this.http.post(this.authUrl + 'login', credentials, { headers: headers })
                 .subscribe((data: any) => {
                     if (data.json().success) {
                         this.storeUserCredentials(data.json().token);
@@ -180,7 +194,7 @@ export class API {
             this.getUserCredentials();
             var headers = new Headers();
             headers.append('Authorization', 'Bearer ' + this.authToken);
-           return this.http.get(this.authUrl + 'getinfo', { headers: headers })
+            return this.http.get(this.authUrl + 'getinfo', { headers: headers })
                 .subscribe((data: any) => {
                     if (data.json().success) {
                         localStorage.setItem('user', JSON.stringify({ id: data.json().info._id, name: data.json().info.fullname }));

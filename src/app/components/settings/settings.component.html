@@ -3,7 +3,10 @@
     <div class="row">
         <div class="panel panel-success">
             <div class="panel panel-heading">
+                <p>
                 Update Profile
+                    <button class="btn btn-danger btn-sm" (click)="removeAccount(profile._id)">Delete Account</button>
+                </p>
             </div>
             <div class="panel panel-body">
                 <div id="response" *ngIf="response" class="alert alert-info">

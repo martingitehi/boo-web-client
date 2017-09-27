@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserAccount } from "../../interfaces/account";
 import { Upload } from "../../interfaces/upload";
 import { UploadService } from "../../services/upload.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { API } from "../../services/api.service";
 
 @Component({
@@ -19,7 +19,10 @@ export class SettingsComponent implements OnInit {
   profile: UserAccount;
   response:string;
 
-  constructor(private uploadService: UploadService, private api: API, private route: ActivatedRoute) { }
+  constructor(private uploadService: UploadService, 
+    private router:Router,
+    private api: API, 
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
@@ -41,6 +44,12 @@ export class SettingsComponent implements OnInit {
     this.api.updateProfile(this.profile, this.id).subscribe(res => {
       this.response = res;
     });
+  }
+
+  deleteAccount(id:any){
+    this.api.deleteAccount(id).then((res)=>{
+      this.router.navigate(['/login']);
+    })
   }
 
 }

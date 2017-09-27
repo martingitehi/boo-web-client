@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit, OnChanges {
     valid: boolean = false;
     info: any[];
     uploading: boolean = false;
-    
+
 
     constructor(private api: API,
         private route: ActivatedRoute,
@@ -65,39 +65,46 @@ export class DashboardComponent implements OnInit, OnChanges {
     uploadAvatar() {
         const files = this.files;
         const file: File = files[0];
-        if (this.checkFileValidity(this.files)) {
-            this.upload = new Upload(file);
-            this.uploadService.uploadAvatar(this.userId, this.upload.file.name);
-        }
-    }
-
-    checkFileValidity(files: FileList): boolean {
-        const len = _.range(files.length);
-        _.each(files, (f) => {
-            if (!(f.type === "image/jpeg" || f.type === "image/png") && (f.size / 1024 / 1024) > 4) {
-                this.info.push[`${f.name} is not valid: ${f.type} and ${f.size / 1024 / 1024} MB.`];
+        this.checkFileValidity(files).then((res) => {
+            console.log(res);
+            if (res == true) {
+                this.upload = new Upload(file);
+                this.uploadService.uploadFile(this.upload, this.userId, true);
             }
         });
-        if (this.info.length > 0) {
-            this.valid = false;
-            return false;
-        }
-        else {
-            this.valid = true;
-            return true;
-        }
+    }
+
+    checkFileValidity(files: FileList): Promise<boolean> {
+        const len = _.range(files.length);
+        return new Promise(resolve => {
+            _.each(files, (f) => {
+                if (!(f.type === "image/jpeg" || f.type === "image/png") && (f.size / 1024 / 1024) > 4) {
+                    this.info.push[`${f.name} is not valid: ${f.type} and ${f.size / 1024 / 1024} MB.`];
+                }
+            });
+            if (this.info.length > 0) {
+                this.valid = false;
+                resolve(false);
+            }
+            else {
+                this.valid = true;
+                resolve(true);
+            }
+        });
     }
 
     uploadPhotos(isAvatar: boolean) {
         const filesToUpload = this.files;
         const filesIdx = _.range(filesToUpload.length);
         _.each(filesIdx, (idx) => {
-            if (this.checkFileValidity(filesToUpload)) {
-                this.upload = new Upload(filesToUpload[idx]);
-                this.uploadService.uploadFile(this.upload, this.userId, isAvatar);
-                this.info = [];
-                this.info.push['All files are valid for upload.'];
-            }
+            this.checkFileValidity(filesToUpload).then((res) => {
+                if (res == true) {
+                    this.upload = new Upload(filesToUpload[idx]);
+                    this.uploadService.uploadFile(this.upload, this.userId, isAvatar);
+                    this.info = [];
+                    this.info.push['All files are valid for upload.'];
+                }
+            });
         });
     }
 }

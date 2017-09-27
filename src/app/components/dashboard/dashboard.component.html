@@ -3,7 +3,9 @@
     <div class="row" style="margin-bottom: 5px;">
         <div class="col-md-3 col-xs-12 col-sm-3">
             <div class="img" *ngIf="profile && profile.avatar_url">
-                <img src="../../../assets/images/{{profile.avatar_url}}" class="img-responsive img-circle" alt="" />
+                <img src="{{profile.avatar_url}}" class="img-responsive img-circle" alt="" />
+                <input type="file" (change)="handleFiles($event)" class="form-control">
+                <button class="btn btn-sm btn-block btn-success" (click)="uploadAvatar()">Upload</button>
             </div>
             <br />
             <div *ngIf="profile && !profile.avatar_url">
